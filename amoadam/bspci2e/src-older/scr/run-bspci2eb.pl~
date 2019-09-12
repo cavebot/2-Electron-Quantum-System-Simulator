@@ -1,0 +1,76 @@
+#!/usr/bin/perl
+
+
+# n1e == n_bsplines can be added as well
+# l1e_min           can be added as well
+# l2e_min           can be added as well
+# n2e ==            can be added as well
+# gauge             can be added as well? 
+#   run as:  ./scr/run_fxd.pl $exe $system $l1e_max $l2e_max $r1 $r2 $dr 
+# help
+
+if ($#ARGV != 7 ) {
+   print "usage: run-bspci2eb.pl exe system nof_photons gauge r_init r_fin dr \n";
+   print "\n";
+   print "0              exe =  directory location of the executables   \n";
+   print "1           system =  hn,he0,li1,mg,ca,..                     \n";
+   print "2              l1e =  max 1e angular momenta                  \n";
+   print "3              n1e =  nof B-splines                           \n";
+   print "4              l2e =  max 2e angular momenta                  \n";
+   print "5              n2e =  max nof states for each angular momenta \n";
+   print "6               r1 =  initial box radius in a.u.              \n";
+   print "7               r2 =  final box radius in a.u.                \n";
+   print "8               dr =  box radius step  in a.u.                \n";
+   print "\n";
+   exit;
+}
+
+
+
+$exe=$ARGV[0] ;
+$system=$ARGV[1] ;
+$l1e=$ARGV[2] ;
+$n1e=$ARGV[2] ;
+$l2e=$ARGV[3] ;
+$n2e=$ARGV[3] ;
+$r1=$ARGV[4] ;
+$r2=$ARGV[5] ;
+$dr=$ARGV[6] ;
+
+
+
+for ($r= $r1 ; $r <= $r2 ; $r += $dr ){
+
+    print " r = $r,   store in  dir = $li1/$r \n" ;   
+
+    system("mkdir -p log") ;
+    system("mkdir -p dat") ;
+    system("mkdir -p out") ;
+    system("mkdir -p inp") ;
+    system("$exe/run-fxd  $system $l1e_max $n1e $l2e $n2e");
+# h1e  (structure + transitions)
+    system("$exe/run-h1e 0 $l1e $exe");
+# h2e  (structure)
+    for ($l= 0 ; $l <= $l2e ; $l += 1 ){
+	system("$exe/run-h2e   $l $exe");
+    }
+# h2e (transitions)
+    for ($l= 0 ; $l < $l2e ; $l += 1 ){
+	system("$exe/run-d2e $l $l+1 $n2e v $system $exe");
+	system("$exe/run-d2e $l $l+1 $n2e l $system $exe");
+    }
+
+    system("mkdir -p  $system") ;
+    system("mkdir -p  $system/$r") ;
+    system("mv    dat $system/$r");
+    system("mv    out $system/$r");
+    system("mv    log $system/$r");
+    system("cp -r inp $system/$r");
+
+
+    perl -i.bak -pe "s/$r1/$r1+$dr/g" h1e.inp or die "$!";
+
+}
+print "end of run script ";
+system("date");
+

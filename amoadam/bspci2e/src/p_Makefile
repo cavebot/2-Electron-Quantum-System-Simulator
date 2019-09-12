@@ -1,0 +1,341 @@
+# $Id$
+#      Makefile for the free boundary code
+#---           Many Channels Project                 --------------.
+#                                                                  .
+#                                 L.AA.N. 21/09/1999               .
+#  Notes:                                                          . 
+#  Machines                : IBM AIX RISC 6000                     .
+#  Libraries               ; imsl(commercial), essl (ibm)          .
+#  Compiler                : xlf90, xlf                            .
+#                                                                  .
+#  Useful uses             :                                       .
+#                                                                  .
+#  unix> make "FFLAGS=-g"  : compile with -g Flag                  .
+#  unix> make install      : moves executables to ${HOME}/bin      .
+#                                                                  .
+#                                                                  .
+#                                                                  .
+####################################################################
+FXD77  	        = ${PWD}/src/fxd77
+FREE77          = ${PWD}/src/free77
+BIN    		= ${PWD}/../bin.2
+RUN             = ${PWD}/../run
+STATIC          = -Bstatic
+LINK_LAPACK     = ${STATIC} -llapack
+LINK_BLAS       = ${STATIC} -lblas
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx           1   
+SOURCES1	= modules.f90 modio.f90 h1e.f90 spack.f soleig-fxd.f VHF_sub.f rinbat.f
+OBJECTS1	= modules.o   modio.o   h1e.o   spack.o soleig-fxd.o VHF_sub.o rinbat.o
+PRODUCT1 	= Rh1e
+LIBS1    	=
+#...................................................................
+# Purpose     :: It calculates the Hamiltonian matrix 
+#                 of one electron on a set of splines
+#             
+# Input Files :: matrix.inp, bspeg.din, rin.din
+# Libraries   :: eispack. (spack.f)
+# Dependecies :: spack.f, bsp.f, soleig.f, modules.f
+# Author      :: Jian Zhang (1994 - 1996)
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          2
+SOURCES2a	= modio.f90 modules.f90  hdmx1e.f90 bsp.f    #dmxab
+OBJECTS2a	= modio.o   modules.o    hdmx1e.o   bsp.o
+PRODUCT2a	= Rhdmx1e
+LIBS2a   	=
+#...................................................................
+# Purpose     :: Calculates the one-electron dipole moment between 
+#                orbitals and  splines (v: velocity gauge, 
+#                the corresponding length gauge program also exists)
+# Input Files :: dmxab.inp, bspeg.din
+# Libraries   :: none
+# Dependecies :: bsp.f, modules.f
+# Author      :: Jian Zhang (1994 - 1996)
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          3
+SOURCES2b	= modio.f90 modules.f90 hdmx1eb.f90 bsp.f #dmxbbv.f90 modules.f90  bsp.f
+OBJECTS2b	= modio.o modules.o hdmx1eb.o bsp.o  
+PRODUCT2b	= Rhdmx1eb
+LIBS2b   	=
+#...................................................................
+# Purpose     :: Calculates the one-electron dipole moment between
+#                orbitals and  splines (v: velocity gauge,
+#                the corresponding length gauge program also exists)
+#
+# Input Files :: dmxab.inp, bspeg.din
+# Libraries   :: none
+# Dependecies :: bsp.f, modules.f
+# Author      :: Jian Zhang (1994 - 1996)
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx           4
+SOURCES3	= hr12.f    subhr12.f   ykfct-hx.f \
+   subio.f   cxfin1.f   ang.f   rinbat.f   bsp.f     mkgrid.f 
+OBJECTS3	=  hr12.o    subhr12.o  ykfct-hx.o \
+   subio.o  cxfin1.o   ang.o   rinbat.o    bsp.o    mkgrid.o 
+PRODUCT3	= Rhr12
+LIBS3   	= 
+#..................................................................
+# Purpose     ::Finding N-degenerate solutions for the continuum 
+#              the energies and the coefficients for the eigenstates
+#
+# Input Files :: dg2ec.inp
+# Libraries   :: none 
+# Dependecies :: cxfin.f
+# Author      :: Jian Zhang (1994 - 1996) 
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx         5
+SOURCES4	= modio.f90 ph2e.f90  subio.f cxfin1.f parallel.f
+OBJECTS4	= modio.o   ph2e.o    subio.o cxfin1.o parallel.o
+PRODUCT4	= Ph2e
+LIBS4   	= ${LINK_SCLPCK}
+#..................................................................
+# Purpose   :: Finding N-degenerate solutions for the continuum 
+#              the energies and the coefficients for1 the eigenstates
+#
+# Input Files :: dg2ec.inp
+# Libraries   :: none 
+# Dependecies :: cxfin.f
+# Author      :: Jian Zhang (1994 - 1996) 
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx         6
+
+
+SOURCES5	= modio.f90 kmtx.f90 modules.f90  subio.f cxfin1.f  bsp.f
+OBJECTS5	= modio.o kmtx.o   modules.o    subio.o cxfin1.o  bsp.o 
+PRODUCT5	= Rkmtx
+LIBS5   	= ${LINK_LAPACK}  ${LINK_BLAS}  #-llapack -lblas  #-lnag -lnagfl90
+#  note : subroutine "interv" is defined in kmtx.f as well as in
+#          bsp.o ( takes the gauss bsplvd) from there
+#...................................................................
+# Purpose     :: it takes data from the dg2ec.f programm 
+#                and find K-matrix A-matrix for each states
+#
+# Input Files :: kmtx.inp
+# Libraries   :: essl, imsl 
+# Dependecies :: modules.f bsp.f cxfin.f
+# Author      :: Jian Zhang (1994 - 1996) 
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx         7
+SOURCES6a	= modio.f90 modhdmx2ebf.f90  subio.f  cxfin1.f hdmx2ebf.f90 subhdmx2e.f
+OBJECTS6a	= modio.o   modhdmx2ebf.o    subio.o  cxfin1.o hdmx2ebf.o   subhdmx2e.o
+PRODUCT6a	= Rhdmx2ebf
+LIBS6a   	= ${LINK_BLAS}  
+#...................................................................
+##
+##  note: subio.f is needed because cxfin1.f cannot take information 
+##        for hcfgfile routine from modio.f90
+##
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx       9
+SOURCES6b	= modio.f90 modhdmx2eff.f90 subio.f hdmx2eff.f90 cxfin1.f subhdmx2e.f
+OBJECTS6b	= modio.o modhdmx2eff.o   subio.o hdmx2eff.o   cxfin1.o subhdmx2e.o 
+PRODUCT6b	= Rhdmx2eff
+LIBS6b   	= ${LINK_BLAS}  
+## dpff_mod.f90 --> modhdmx2ebf.f90
+## dpff_form.f90 --> hdmx2eff.f90 
+#...................................................................
+# Purpose     :: Calculates the 2-electron dipole matrix elements 
+#                in velocity gauge between unormalized continuum states.
+#              
+#
+# Input Files :: dpbf.inp
+# Libraries   :: essl (dgemv)  
+# Dependecies :: dpbf_mod.f, dpbf_sub77.o, cxfin.o
+# Author      :: Jian Zhang (1994 - 1996) 
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx      10 
+SOURCES7a	= modio.f90 dpnormbf.f90  subio.f cxfin1.f   # dpnormbf.f
+OBJECTS7a 	= modio.o   dpnormbf.o    subio.o cxfin1.o
+PRODUCT7a	= Rdpnormbf
+LIBS7a   	= ${LINK_LAPACK}  ${LINK_BLAS}  
+#...................................................................
+# Purpose     :: normalize the results from dpbf
+#
+# Input Files :: dpnorm.inp
+# Libraries   :: imsl (dlincg)
+# Dependecies :: none
+# Author      :: Jian Zhang (1994 - 1996) 
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx      11
+SOURCES7b	= modio.f90 dpnormff.f90 subio.f cxfin1.f  subhdmx2e.f   #dpnormff_adpt_core.f90
+OBJECTS7b 	= modio.o   dpnormff.o   subio.o cxfin1.o  subhdmx2e.o
+PRODUCT7b	= Rdpnormff
+LIBS7b   	= ${LINK_LAPACK}  ${LINK_BLAS}  
+#...................................................................
+# Purpose     :: normalize the results from dpbf
+#
+# Input Files :: dpnorm.inp
+# Libraries   :: imsl (dlincg)
+# Dependecies :: none
+# Author      :: Jian Zhang (1994 - 1996)
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx      13
+SOURCES7c	= modio.f90 cs2ph.f90 subio.f cxfin1.f
+OBJECTS7c 	= modio.o  cs2ph.o subio.o cxfin1.o 
+PRODUCT7c	= Rcs2ph_f
+LIBS7c   	= ${LINK_LAPACK}  ${LINK_BLAS}
+#...................................................................
+# Purpose     :: normalize the results from dpbf
+#
+# Input Files :: dpnorm.inp
+# Libraries   :: imsl (dlincg)
+# Dependecies :: none
+# Author      :: Jian Zhang (1994 - 1996) 
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+SOURCES		= $(SOURCES1)  $(SOURCES2a)  $(SOURCES2b) $(SOURCES3)  $(SOURCES4) \
+	   	  $(SOURCES5)  $(SOURCES6a)  $(SOURCES6b) $(SOURCESa) \
+	   	  $(SOURCES7b) $(SOURCES7c)  $(SOURCES3a)
+OBJECTS		= $(OBJECTS1)  $(OBJECTS2a)  $(OBJECTS2b) $(OBJECTS3)  $(OBJECTS4) \
+	  	  $(OBJECTS5)  $(OBJECTS6a)  $(OBJECTS6b) $(OBJECTS7a)\
+	  	  $(OBJECTS7b) $(OBJECTS7c)  $(OBJECTS3a)
+PRODUCT		= $(PRODUCT1)  $(PRODUCT2a)  $(PRODUCT2b) $(PRODUCT3)  $(PRODUCT4) \
+	  	  $(PRODUCT5)  $(PRODUCT6a)  $(PRODUCT6b) $(PRODUCT7a)\
+	  	  $(PRODUCT7b) $(PRODUCT7c)  $(PRODUCT3a)
+
+PGF77FLAGSCHECK      = #-Ktrap=inv,denorm,divz,ovf,unf -Mbounds -Minform,inform -Munixlogical
+PGF90FLAGSCHECK      = #-Ktrap=inv,denorm,divz,ovf,unf -Mbounds -Minform,inform -Munixlogical -Mstandard
+#PGF90OPTFLAGS        =
+#PGF90PARALLELFLAGS   =
+
+INCLUDE 	=
+CC 		= mpiCC
+F77		= mpif77  #${PGF77OPTFLAGS}   #${PGF77PARALLELFLAGS}
+F90             = mpif90  #${PGF90OPTFLAGS}   #${PGF90PARALLELFLAGS}
+CFLAGS		=
+
+FFLAGS		= #-tp athlon 
+LINK	        = mpif90 ${PGF90FLAGS} 
+
+## IBM
+MAXMEM          =
+#  -qmaxmem=8192 -bmaxdata:-1 -bmaxdata:0x40000000  # For RAM memory more than 256MB
+#  -C -qlanglvl=90std
+#     -qlanglvl=xlf90    : check languages
+#  -C          : run-time checking of array bounds
+#  -qstrict    :
+#FLAGS   =-g,  -g -p, -g -pg, -g -pg -qbrowse, -g -C -qextchk, -pg -O3
+#
+
+MV              = mv
+RM		= rm
+RMFLAGS		= -f
+
+all	:${PRODUCT1} ${PRODUCT2a) ${PRODUCT2b} ${PRODUCT3} ${PRODUCT4} ${PRODUCT5} \
+         ${PRODUCT6a} ${PRODUCT6b} ${PRODUCT7a} ${PRODUCT7b} ${PRODUCT3a}
+
+$(PRODUCT1): $(SOURCES1) $(OBJECTS1) 
+	$(LINK) -o $(PRODUCT1) $(OBJECTS1) $(INCLUDE) $(LIBS1)
+	${RM} ${OBJECTS1}
+	${MV} ${PRODUCT1} ${BIN}
+
+$(PRODUCT2a): $(SOURCES2a) $(OBJECTS2a) 
+	$(LINK) -o $(PRODUCT2a) $(OBJECTS2a) $(INCLUDE) $(LIBS2a)
+	${RM} ${OBJECTS2a}
+	${MV} ${PRODUCT2a} ${BIN}
+
+$(PRODUCT2b): $(SOURCES2b) $(OBJECTS2b) 
+	$(LINK) -o $(PRODUCT2b) $(OBJECTS2b) $(INCLUDE) $(LIBS2b)
+	${RM} ${OBJECTS2b}
+	${MV} ${PRODUCT2b} ${BIN}
+
+$(PRODUCT3): $(SOURCES3) $(OBJECTS3) 
+	$(F77) -o $(PRODUCT3) $(OBJECTS3) $(INCLUDE) $(LIBS3)
+	${RM} ${OBJECTS3}
+	${MV} ${PRODUCT3} ${BIN}
+
+$(PRODUCT4): $(SOURCES4) $(OBJECTS4) 
+	$(LINK) -o $(PRODUCT4) $(OBJECTS4) $(INCLUDE) $(LIBS4) 
+	${RM} ${OBJECTS4}
+	${MV} ${PRODUCT4} ${BIN}
+
+$(PRODUCT5): $(SOURCES5) $(OBJECTS5) 
+	$(LINK) -o $(PRODUCT5) $(OBJECTS5) $(INCLUDE) $(LIBS5)
+	${RM} ${OBJECTS5}
+	${MV} ${PRODUCT5} ${BIN}
+
+$(PRODUCT6a): $(SOURCES6a) $(OBJECTS6a) 
+	$(LINK) -o $(PRODUCT6a) $(OBJECTS6a) $(INCLUDE) $(LIBS6a)
+	${RM} ${OBJECTS6a}
+	${MV} ${PRODUCT6a} ${BIN}
+
+$(PRODUCT6b): $(SOURCES6b) $(OBJECTS6b) 
+	$(LINK) -o $(PRODUCT6b) $(OBJECTS6b) $(INCLUDE) $(LIBS6b)
+	${RM} ${OBJECTS6b}
+	${MV} ${PRODUCT6b} ${BIN}
+
+$(PRODUCT7a): $(SOURCES7a) $(OBJECTS7a) 
+	$(LINK) -o $(PRODUCT7a) $(OBJECTS7a) $(INCLUDE) $(LIBS7a)
+	${RM} ${OBJECTS7a}
+	${MV} ${PRODUCT7a} ${BIN}
+
+$(PRODUCT7b): $(SOURCES7b) $(OBJECTS7b) 
+	$(LINK) -o $(PRODUCT7b) $(OBJECTS7b) $(INCLUDE) $(LIBS7b)
+	${RM} ${OBJECTS7b}
+	${MV} ${PRODUCT7b} ${BIN}
+
+$(PRODUCT7c): $(SOURCES7c) $(OBJECTS7c) 
+	$(LINK) -o $(PRODUCT7c) $(OBJECTS7c) $(INCLUDE) $(LIBS7c)
+	${RM} ${OBJECTS7c}
+	${MV} ${PRODUCT7c} ${BIN}
+
+# Suffix rules
+.SUFFIXES: .f90
+
+.f.o:
+	$(F77) $(FFLAGS) $(INCLUDE) -c $<
+
+.f90.o:
+	$(F90) $(FFLAGS) $(INCLUDE) -c $<
+
+.C.o:	
+	$(CC) $(CFLAGS) $(INCLUDE) -c $<
+
+
+done:
+	-@echo "Compilation Two-Electron B-splines/free code done."
+	-@echo "Executables have been installed to ${BIN}.  "
+info:
+	-@echo "=========================================="
+	-@echo "Compiling Two-Electron B-slpines/free  "
+	-@echo "On directory: ${PWD}"
+	-@echo "by ${LOGNAME}"
+	-@echo " maintened by  l.aa.n"
+	-@echo " e-mail : nlambros@iesl.forth.gr"
+	-@echo " "
+	-@echo "=========================================="
+	-@echo Date     : `date`
+	-@echo hostname : `hostname`
+	-@echo Machine  : `uname -a`
+	-@echo "-----------------------------------------"
+	-@echo "Using Fortran compiler: ${F90} ${FFLAGS} "
+	-@echo "Using include paths:    ${INCLUDE}"
+	-@echo "Using Fortran linker:   ${LINK}"
+	-@echo "Using libraries :       ${LINK_BLAS}"
+	-@echo "                        ${LINK_LAPACK}"
+	-@echo "                        ${LINK_ESSL}"
+	-@echo "                        ${LINK_IMSL_SH}"
+	-@echo "=========================================="
+#
+
+#end of all
+#	rm ${BIN}/$(PRODUCT1) ${BIN}/$(PRODUCT2) ${BIN}/$(PRODUCT3) \
+#	${BIN}/$(PRODUCT4) ${BIN}/$(PRODUCT5) ${BIN}/$(PRODUCT6)
+
+install:
+	mv $(PRODUCT1) $(PRODUCT2a) $(PRODUCT2b) $(PRODUCT3) $(PRODUCT4) \
+	$(PRODUCT5)    $(PRODUCT6a) $(PRODUCT6b) $(PRODUCT6c) $(PRODUCT7a)  \
+	$(PRODUCT7b)   $(PRODUCT7b) ${BIN}
+	echo 'Executables ' ${PRODUCT} ' have been installed in' \
+	${BIN}
+
+clean:
+	$(RM) $(RMFLAGS) $(OBJECTS) $(PRODUCT) tempinc/*
+
+revision:
+	ci -l Makefile  *.C  *.f  include/*.h
+	chmod 644 Makefile  *.C  *.f include/*.h
+
+printout:
+	a2ps -c -nP Makefile $(HEADERS) $(SOURCES)  > printout.ps
+
+wc:
+	wc Makefile $(HEADERS) $(SOURCES)
+
+rlog:
+	rlog RCS/* include/RCS/* > rlog.txt
+
+
+depend:
+	makedepend -- $(CFLAGS0) -- $(SOURCES0) $(INCLUDE0) \
+	-I/usr/lpp/xlC/include -I/usr/include 2>/dev/null
+# DO NOT DELETE THIS LINE -- make depend depends on it.

@@ -1,0 +1,23 @@
+h1e.inp                           #             =  output file for package bsci2e
+1.0                               # reduced     =  1.0 (electron), 0.5 (positron) )
+qdot                              # potential   =  h (hydrogenic), he (helium), hn (h-), model (various atoms),    
+9                                 # kb          =  b-splines order, integer
+0.00001                           # rs          =  first non zero point for bsplines grid
+1                                 # knots       =  0 (sine), 1 (lin), 2 (exp)..
+1200                              # npoints     =  nof grid points for integrations (not the b-splines grid)
+1.2e-08                           # rmin        =  first non-zero point for sine-like grid [1,2,...npoints]
+0                                 # nrp         =  exponent for exp-like grid
+0                                 # 1st_spline  =  0 (exclude),  1 (include)
+0                                 # last_spline =  0 (excluded), 1 (include)
+d                                 # method      = 'l' (lin), 'd'(diag), 'dl'            
+mxd                               # spectrum    = 'fxd,mxd'
+0.0                               # e0          =  start energy for continuum solutions  (method = 'l', 'dl')
+0.5                               # de          =  step  energy for continuum solutions  (method = 'l', 'dl')
+100                               # ncs         =  nof  continuum states                 (method = 'l', 'dl')
+6                                 # nbs         =  nof bound states   (method ='dl') ?
+3.0                               # ap          =  strength of model potentials
+0.0                               # rc          =  cut-off  of model potentials 
+0                                 # ihf         = 0 no HF calculation, ihf = 1 HF calculation provide extra HF inputs
+##############################################################################################################
+# input file for bspci2e.f90
+

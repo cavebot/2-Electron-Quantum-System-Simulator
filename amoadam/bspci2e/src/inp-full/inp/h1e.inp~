@@ -1,0 +1,13 @@
+        0.10000        1.00000          # zn, mass
+qdot         3.00000   0.00000          # model potential, ap, rc
+             60              8          # nb, kb
+ 0.120E-07  50.00000      1200          # rmin, rb, no
+         1 0.100E-04         0          # grid (0=sin,1=lin), rs = first non-zero point)(sine)
+              0              0          # 1st(last)_spline(0/1) is (excluded/included
+            d              mxd          # d(diag), dl(diag-linear) l(linear/inverse)  (fxd,free,mxd)
+   0.00000   0.50000  100    6          # e0, de, ncs, nbs
+              0                         # ihf = 1, perform a HF calculation
+########################################
+#
+#  input file for running bsci2e program
+#

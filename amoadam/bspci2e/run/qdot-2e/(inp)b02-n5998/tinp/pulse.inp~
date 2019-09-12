@@ -1,0 +1,31 @@
+1
+acos2
+1.0D+15
+54.42228
+-0.5
+8
+0.0
+============
+
+
+
+asin2
+esin2
+============
+390nm 
+============
+sin2
+1.0D+14
+3.17908317D+00
+5
+0.0
+=============
+number_of_modes
+pulsetype
+i0 (w/cm^2)
+w  (eV)
+start_time (any real number)  ti = - start_time * cycles * T0 
+cycles
+phi
+==============
+390 nm = 3.17908317 eV = 0.11682910904 a.u.

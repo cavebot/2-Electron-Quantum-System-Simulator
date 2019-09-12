@@ -1,0 +1,39 @@
+#!/bin/sh
+
+#
+# all-to-all dipole matrix elements for tdse run
+#
+
+echo '#                run-d2e ' $1 $2 $3 $4 $5
+echo '#       minimum 2e  Lmin = ' $1
+echo '#       maximum 2e  Lmax = ' $2
+echo '#                    n2e = ' $3
+echo '#                  gauge = ' $4
+echo '#                 system = ' $5
+echo '#                exe dir = ' $6
+echo '# cfg-l.inp must be edited.'
+echo '#               gauge = l,v'
+
+
+sbin=$6
+L=$1
+while [ $L -le $2 ] 
+do
+echo 'Rw2eb, Rn2eb' $L
+ 
+$sbin/Rw2eb  $L $3     > out/w2e-$L-$3.out
+$sbin/Rn2eb  $L        > out/n2e-$L.out
+L=`expr $L + 1`
+done
+
+echo 'running d2e now.'
+
+L=$1
+while [ $L -lt $2 ] 
+do
+echo 'Rd2eb, partial wave, gauge ', $L, $4
+$sbin/Rd2eb $L $4 $5      > out/d2e-$4$L.out
+L=`expr $L + 1`
+done
+echo 'run-d2e done.'
+

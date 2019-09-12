@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#This script will run the time-dependent-schrodinger equation calculation for 
+#various values of the field central frequency. 
+
+# $1 = w1 = lower frequency
+# $2 = w2 = upper frequency 
+# $3 = Number of frequencies between w1 and w2
+
+
+#mkdir 'frequency-scan'
+
+for w1 in $(seq $1 1 $2)
+do
+
+mkdir 'omega='$w1''
+sed -i '4s/.*/'$w1'/' ./tinp/pulse.inp 
+echo 'Starting TDSE caluclation with photon frequency = ' $w1 'eV'
+./bin/Rtdse_bs
+
+mv tdat tout ./'omega='$w1''
+cp -r tinp ./$'omega='$w1''
+mv $'omega='$w1'' ./'frequency-scan'
+mkdir tout tdat
+
+done
+
+

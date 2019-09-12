@@ -1,0 +1,33 @@
+-bspci2e package
+
+20112017:
+=====================================================
+compilation requires:
+-slatec          (expand libslatec.tgs and create library as: gfortran -O2 -c *.f ; ar cst libslatec.a *.o)
+-nag17           (expand libnag.tgz  and create library as:  ./compile; ./buildlib)
+-lapack          (sudo apt-get install liblapack-dev)
+-netcdff         (sudo apt-get install libnetcdff-dev)
+======================================================
+
+
+directory tree
+
+main (bspci2e)     (top directory)
+-src
+-bin
+-run
+-lib
+
+
+src: the location of all the source files and compilation config files
+lib: packages lib are located here
+run: execution dirs
+ -inp : input files
+ -scr : script files
+ -dat : structure data
+ -tdat: tdse dat
+ -out : out files
+ -tout: TDSE out files
+ -log: var
+==========================================================
+

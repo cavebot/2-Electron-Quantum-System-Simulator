@@ -1,0 +1,39 @@
+bin/Rbspci2e -zn 0.18 -rb 50.0 -nb 62
+bin/run-h1e.scr 0 7 bin
+bin/run-h2e.scr 0 bin
+bin/run-h2e.scr 1 bin
+bin/run-h2e.scr 2 bin
+bin/run-h2e.scr 3 bin
+bin/run-d2e.scr 0 1 900 v he bin
+bin/run-d2e.scr 1 2 900 v he bin
+bin/run-d2e.scr 2 3 900 v he bin
+bin/Rncf 0 2 v 900 
+
+#bin/Rtdse_bs_qdot
+
+#
+#
+# readme:    
+#        - in the parameters file setting nl=5 will result to crash
+#            when the cfg files include l1e = 4 and above.
+# 
+#        - znuc corresponds to the 'beta' paramerer of Sajeev and
+#               Moiseyev paper
+#        - at the moment there is some crass when I try to include
+#          all possible states (single and doubly ionized)
+#
+#
+# files to be edited:
+#
+#  prior to compile time : parameter_1e.inp parameter_2e.inp
+#
+# prior to runtime:
+#   tise part:
+# - inp/bsci2e.inp, inp/h1e.inp, inp/grid.inp, inp/r12.inp
+# - inp/cfg-l.inp, L = 0,1....
+#   tdse part:
+# - tinp/pulse.inp , tinp/tdse_bs_qd2e.inp
+#
+#
+#
+

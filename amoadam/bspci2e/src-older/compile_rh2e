@@ -1,0 +1,1 @@
+ifort  -cm               -o Rh2e  modio.o h2e.f90  /users/lnikolopoulos/amo/src/atoms/bs_frb_2e/bspci2ef-latest/src/../lib/libbs_frb_2e.a  -llapack  -L/opt/intel/fce/9.1.032/lib/   -lblas    -L/opt/intel/fce/9.1.032/lib/     

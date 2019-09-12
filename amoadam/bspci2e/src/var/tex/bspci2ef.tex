@@ -1,0 +1,150 @@
+\documentstyle[a4]{article}
+
+
+\title{ BSPCI2EF PACKAGE }
+
+\begin{document}
+
+\section{Introduction}
+
+\subsection{Purpose}
+\begin{verbatim}
+ LOG NOTES
+
+   **  THIS PACKAGE USES AN B-SPLINES CI IMPLEMENTATION     **
+   **  FOR PRODUCING 2-E MULTICHANNEL STATES. BASICALLY     **
+   **  IT IS A THE THE EQUIVALENT IN MATRIX REPRESANTATION  ** 
+   **  OF THE STANDARD CLOSE-COUPLING EQUATIONS             **
+   **  IT ALSO CALCULATES 2-E DIPOLE MATRIX ELEMENTS        **
+   **  (2-E DME), RENORMALIZES THEM IN S-MATRIX AND USING   **
+   **  STANDARD LOPT, GENERALIZED 1/2-PHOTON CROSS SECTIONS **
+   **  ARE PRODUCED                                         **
+\end{verbatim}
+
+
+\subsection{authors}
+
+\begin{verbatim}
+
+  AUTHORS :   JIAN ZHANG                ( 1994 - 1996 )    
+              L. A. A. NIKOLOPOULOS     ( 2000 -      )    
+
+\end{verbatim}
+
+
+\section{ Revision 0.0 }
+
+\begin{verbatim}
+!
+
+!
+!     JAN1997      :  REVISION O.O      JIANZHANGMPQMPG
+!                     
+!     PROGRAMS INCLUDED IN THE PACKAGE :
+!     
+!     matrix.f90
+!     dpnorm.f90
+
+\end{verbatim}
+
+\section{ Revision 1.0 }
+
+\begin{verbatim}
+
+!
+!   
+!
+!
+!     16022002     :  REVISION 1.O      LAANIESLFORTH
+!
+!      AUTHOR     :      L. A.A. NIKOLOPOULOS   
+!      DATE       :      Sat Feb 16 20:04:48 EET 2002
+!      INSTITUTE  :      IESL/FORTH 
+!
+!
+
+\end{verbatim}
+
+\subsection{Package's programs}
+
+\begin{verbatim}
+
+SOURCES1	= modules.f90 modio.f90 h1e.f90 spack.f soleig-fxd.f VHF_sub.f rinbat.f
+OBJECTS1	= modules.o   modio.o   h1e.o   spack.o soleig-fxd.o VHF_sub.o rinbat.o
+PRODUCT1 	= Rh1e
+LIBS1    	=
+#...................................................................
+SOURCES2a	= modio.f90 modules.f90  hdmx1e.f90 bsp.f    #dmxab
+OBJECTS2a	= modio.o   modules.o    hdmx1e.o   bsp.o
+PRODUCT2a	= Rhdmx1e
+LIBS2a   	=
+#...................................................................
+SOURCES2b	= modio.f90 modules.f90 hdmx1eb.f90 bsp.f #dmxbbv.f90 modules.f90  bsp.f
+OBJECTS2b	= modio.o modules.o hdmx1eb.o bsp.o  
+PRODUCT2b	= Rhdmx1eb
+LIBS2b   	=
+#...................................................................
+SOURCES3	= hr12.f    subhr12.f   ykfct-hx.f subio.f   cxfin1.f    ang.f    
+                  rinbat.f  bsp.f       mkgrid.f 
+OBJECTS3	=  hr12.o    subhr12.o  ykfct-hx.o subio.o   cxfin1.o   ang.o      
+                   rinbat.o  bsp.o      mkgrid.o 
+PRODUCT3	= Rhr12
+LIBS3   	= 
+#..................................................................
+SOURCES4	= modio.f90 h2e.f90  subio.f cxfin1.f
+OBJECTS4	= modio.o   h2e.o    subio.o cxfin1.o 
+PRODUCT4	= Rh2e 
+LIBS4   	= \${LINK_LAPACK}  \${LINK_BLAS}  
+#..................................................................
+SOURCES4p	= modio.f90 ph2e.f90  subio.f cxfin1.f parallel.f
+OBJECTS4p	= modio.o   ph2e.o    subio.o cxfin1.o parallel.o
+PRODUCT4p	= Ph2e
+LIBS4p   	= \${LINK_SCLPCK}
+#..................................................................
+SOURCES5	= modules.f90 modio.f90 kmtx.f90 subio.f cxfin1.f  bsp.f
+OBJECTS5	= modules.o  modio.o    kmtx.o   subio.o cxfin1.o  bsp.o 
+PRODUCT5	= Rkmtx
+LIBS5   	= \${LINK_LAPACK}  \${LINK_BLAS}
+#..................................................................
+SOURCES6a	= modio.f90 modhdmx2ebf.f90  subio.f  cxfin1.f hdmx2ebf.f90 subhdmx2e.f
+OBJECTS6a	= modio.o   modhdmx2ebf.o    subio.o  cxfin1.o hdmx2ebf.o   subhdmx2e.o
+PRODUCT6a	= Rhdmx2ebf
+LIBS6a   	= \${LINK_BLAS}  
+#...................................................................
+SOURCES6b	= modio.f90 modhdmx2eff.f90 subio.f hdmx2eff.f90 cxfin1.f subhdmx2e.f
+OBJECTS6b	= modio.o   modhdmx2eff.o   subio.o hdmx2eff.o   cxfin1.o subhdmx2e.o 
+PRODUCT6b	= Rhdmx2eff
+LIBS6b   	= \${LINK_BLAS}  
+#...................................................................
+SOURCES7a	= modio.f90 dpnormbf.f90  subio.f cxfin1.f   # dpnormbf.f
+OBJECTS7a 	= modio.o   dpnormbf.o    subio.o cxfin1.o
+PRODUCT7a	= Rdpnormbf
+LIBS7a   	= \${LINK_LAPACK}  \${LINK_BLAS}  
+#...................................................................
+SOURCES7b	= modio.f90 dpnormff.f90 subio.f cxfin1.f  subhdmx2e.f   
+OBJECTS7b 	= modio.o   dpnormff.o   subio.o cxfin1.o  subhdmx2e.o
+PRODUCT7b	= Rdpnormff
+LIBS7b   	= \${LINK_LAPACK}  \${LINK_BLAS}
+#...................................................................
+SOURCES7c	= modio.f90 cs1ph.f90 subio.f cxfin1.f
+OBJECTS7c 	= modio.o   cs1ph.o   subio.o cxfin1.o 
+PRODUCT7c	= Rcs1ph_f
+LIBS7d   	= \${LINK_LAPACK}  \${LINK_BLAS}
+#...................................................................
+SOURCES7d	= modio.f90 cs2ph.f90 subio.f cxfin1.f
+OBJECTS7d 	= modio.o   cs2ph.o   subio.o cxfin1.o 
+PRODUCT7d	= Rcs2ph_f
+LIBS7d   	= \${LINK_LAPACK}  \${LINK_BLAS}
+#...................................................................
+SOURCES8	= input.f
+OBJECTS8 	= input.o 
+PRODUCT8	= Rinput
+LIBS8   	=
+#...................................................................
+
+\end{verbatim}
+
+
+\section{Rh1e}
+
+\end{document}

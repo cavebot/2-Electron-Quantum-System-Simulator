@@ -1,0 +1,144 @@
+#!/bin/bash
+
+#This script will run the time-dependent-schrodinger equation calculation for 
+#various values of the field central frequency. 
+
+# $1 = w = lower frequency
+# $2 = w2 = upper frequency 
+# $3 = Number of frequencies between w and w2
+
+
+mkdir 'frequency-scan'
+
+#for w in $(seq $1 1 $2)
+#do
+
+w=25.944
+mkdir 'omega='$w''
+sed -i '4s/.*/'$w'/' ./tinp/pulse.inp 
+echo 'Starting TDSE caluclation with photon frequency = ' $w 'eV'
+
+./bin/Rtdse_bs
+
+mv tdat tout ./'omega='$w''
+cp -r tinp ./$'omega='$w''
+mv $'omega='$w'' ./'frequency-scan'
+mkdir tout tdat
+
+################################
+
+w=26.944
+mkdir 'omega='$w''
+sed -i '4s/.*/'$w'/' ./tinp/pulse.inp 
+echo 'Starting TDSE caluclation with photon frequency = ' $w 'eV'
+
+./bin/Rtdse_bs
+
+mv tdat tout ./'omega='$w''
+cp -r tinp ./$'omega='$w''
+mv $'omega='$w'' ./'frequency-scan'
+mkdir tout tdat
+
+################################
+
+w=27.944
+mkdir 'omega='$w''
+sed -i '4s/.*/'$w'/' ./tinp/pulse.inp 
+echo 'Starting TDSE caluclation with photon frequency = ' $w 'eV'
+
+./bin/Rtdse_bs
+
+mv tdat tout ./'omega='$w''
+cp -r tinp ./$'omega='$w''
+mv $'omega='$w'' ./'frequency-scan'
+mkdir tout tdat
+
+################################
+
+w=28.944
+mkdir 'omega='$w''
+sed -i '4s/.*/'$w'/' ./tinp/pulse.inp 
+echo 'Starting TDSE caluclation with photon frequency = ' $w 'eV'
+
+./bin/Rtdse_bs
+
+mv tdat tout ./'omega='$w''
+cp -r tinp ./$'omega='$w''
+mv $'omega='$w'' ./'frequency-scan'
+mkdir tout tdat
+
+################################
+
+w=29.944
+mkdir 'omega='$w''
+sed -i '4s/.*/'$w'/' ./tinp/pulse.inp 
+echo 'Starting TDSE caluclation with photon frequency = ' $w 'eV'
+
+./bin/Rtdse_bs
+
+mv tdat tout ./'omega='$w''
+cp -r tinp ./$'omega='$w''
+mv $'omega='$w'' ./'frequency-scan'
+mkdir tout tdat
+
+################################
+
+w=30.944
+mkdir 'omega='$w''
+sed -i '4s/.*/'$w'/' ./tinp/pulse.inp 
+echo 'Starting TDSE caluclation with photon frequency = ' $w 'eV'
+
+./bin/Rtdse_bs
+
+mv tdat tout ./'omega='$w''
+cp -r tinp ./$'omega='$w''
+mv $'omega='$w'' ./'frequency-scan'
+mkdir tout tdat
+
+################################
+
+w=31.944
+mkdir 'omega='$w''
+sed -i '4s/.*/'$w'/' ./tinp/pulse.inp 
+echo 'Starting TDSE caluclation with photon frequency = ' $w 'eV'
+
+./bin/Rtdse_bs
+
+mv tdat tout ./'omega='$w''
+cp -r tinp ./$'omega='$w''
+mv $'omega='$w'' ./'frequency-scan'
+mkdir tout tdat
+
+################################
+
+w=32.944
+mkdir 'omega='$w''
+sed -i '4s/.*/'$w'/' ./tinp/pulse.inp 
+echo 'Starting TDSE caluclation with photon frequency = ' $w 'eV'
+
+./bin/Rtdse_bs
+
+mv tdat tout ./'omega='$w''
+cp -r tinp ./$'omega='$w''
+mv $'omega='$w'' ./'frequency-scan'
+mkdir tout tdat
+
+################################
+
+w=33.944
+mkdir 'omega='$w''
+sed -i '4s/.*/'$w'/' ./tinp/pulse.inp 
+echo 'Starting TDSE caluclation with photon frequency = ' $w 'eV'
+
+./bin/Rtdse_bs
+
+mv tdat tout ./'omega='$w''
+cp -r tinp ./$'omega='$w''
+mv $'omega='$w'' ./'frequency-scan'
+mkdir tout tdat
+
+################################
+
+#done
+
+

@@ -1,0 +1,51 @@
+he                      # system
+f90                     # read netCDF(cdf) or f90(f90) binary dipole matrix data 
+3                       # lmax
+5998                    # nmax      = maximum nof states included (
+-2.1402733              # -E(+)     = xxx (a.u.) (relative to E++)  e.g.  he(1s^2) (-2.903)
+-3.3535553              # -E(++)    = xxx (a.u.) (relative to E++), e.g. he+(1s)   (-2)
+100.0D+00               # E_cut     = photoelecron energy (a.u.) (relative to E+)
+v                       # gauge     = l,v               :: ('l' = length) or ('v' = velocity)
+f                       # hohg      = (f)alse or (t)rue : calculate d(t) ?
+0                       # irestart  = 0,1               : (0 =new calculation), (1 =restarted)
+1.0D-10                 # tolerance
+========================================================================================
+-0.53545904E+01
+
+-2.4842502
+-1.7204047
+
+
+# run as       
+bin/Rtdse_bs_fxd_2e       
+
+beta = 0.1
+----------------------------------------------------
+(small basis n52k9sine)
+E_g = -0.32920927E+01   
+--------
+(full basis n62k9sine-l0123)
+E++  = -0.32935106E+01  
+E(+) = 0.19346170414916E+01
+--------
+(full basis n62k9linear-l0123) 
+E++ = -0.32939083E+01
+E+  = -0.19346168451788E+01
+---------------------------------------------------
+beta = 0.06
+E+  = -0.38012699E+01   
+E_g = -0.21575068002169E+01
+
+beta = 0.14 
+(full basis)
+E++ = -0.29053371E+01
+E+  = -0.17611327231333E+01
+(smalll basis)
+E(++)  = 
+E(+)   = -1.7611329D+00          # -E(+)     = xxx (a.u.) (relative to E++)  e.g.  he(1s^2) (-2.903)
+
+neq = 2 * nmax * (lmax+1)  ! 2 comes from the complex arithmetics
+he (tdse_fxd_2e)
+
+
+

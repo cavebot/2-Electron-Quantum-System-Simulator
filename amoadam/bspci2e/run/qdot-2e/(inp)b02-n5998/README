@@ -1,0 +1,39 @@
+there are 2 directories and 4 files in this
+
+-inp
+-tinp
+-parameter.1e.inc
+-parameter.2e.inc
+-this file
+
+Run a fresh calculation
+
+1) compilation
+
+- check parameter.1e.inc
+- chack parameter.2e.in
+- compile the entire code
+
+2) input
+
+- check inp/ directory
+
+
+3) run
+
+
+run-qdot-2e 0.2 5998
+
+
+- check QDOT structure outputs
+
+4) check tinp/  directory
+
+-edit 'tdse.bs' and put the right E++ and E+ energies there
+
+>Rtdse_bs
+>Rtdse_bs_pop
+
+
+-
+

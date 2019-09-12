@@ -1,0 +1,44 @@
+#!/bin/sh
+
+#
+# $1 minimum angular mometum
+# $2 maximum angular momentum
+# 
+
+echo '# run-target-1e::' $1
+echo '# en/dmx for the target orbitals from  lmin = ' $1
+echo '#                                up to lmax = ' $2
+echo '#                                   exe dir = ' $3
+echo '# in h1e.inp must set first_spline = 0.'
+echo '# in h1e.inp must set  last_spline = 0.'
+
+print "running h1e.scr \n";
+
+sbin=$3
+
+L=$1
+while [ $L -le $2 ] 
+do
+echo 'Rh1e l = ' $L
+$sbin/Rh1e   la= $L  a= solve         > out/h1e-la_$L-a_solve.out
+echo 'Rw1e l = ' $L
+$sbin/Rw1e   la= $L  a= save          > out/wf1e-la_$L-a_save.out
+L=`expr $L + 1`
+done
+
+echo 'Rh1e l = -1'
+$sbin/Rh1e   la= -1                   > out/h1e-la_1.out
+echo 'Rh1e l = lva'
+$sbin/Rh1e   la= -1   g= lva          > out/h1e-g_lva-la_1.out
+echo 'Rw1e merge l = ',  $1
+$sbin/Rw1e la= 0  lb= `expr $2 - 1` a= merge   > out/wf1e-lab_$2-a_merge.out
+
+#echo 'Rw1e all-dipoles'
+$sbin/Rw1e la= $1 lb= $2 a= dipole g= l  > out/w1e-fxd-$1$2-l-dipole.out
+$sbin/Rw1e la= $1 lb= $2 a= dipole g= v  > out/w1e-lab_$1$2-a_dipole-g_v.out
+#$sbin/Rw1e la= $1 lb= $2 a= dipole g= a > out/w1e-fxd-$1$2-a-dipole.out
+echo 'run-target-orbitals done.'
+echo 'edit h1e.inp'
+echo 'set first_spline =1'
+echo 'set last_spline  =1'
+echo 'run-overlaps next'

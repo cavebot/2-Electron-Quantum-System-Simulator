@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="namespaceatom__2e">
+<title>atom_2e</title>
+        <section>
+            <title> Classes </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structatom__2e_1_1symmetry__ls2e">atom_2e::symmetry_ls2e</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>subroutine <link linkend="namespaceatom__2e_1ac0a52f564fdd200e5b94bba6c227bb33">init_symmetry_ls2e</link> (
+this , l_2e , s_2e , n_e2e , n_c2e )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>subroutine <link linkend="namespaceatom__2e_1aa5a953ad205e755aa0b4461603b89025">init_w2e_configurations</link> (
+this , li )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+
+<para>This program calculates bound (b), single-ionization (si) and double-ionization (di) probabilities based on the tdse.nc output of the tdse calculation of a 2e-system. </para>
+    </simplesect>
+        <simplesect>
+            <title>Detailed Description</title>
+
+<para><equation><title>form_1</title>$ P_{di} = \sum_{E&gt;0,nl&gt;0} |\langle \phi_0|\psi(t) \rangle|^2$</equation> </para>
+                <para>Definition at line 12 of file tdse_pop_sdi.f90</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tdse_pop_sdi.f90</para></listitem></itemizedlist></para>
+        </simplesect>
+</section>

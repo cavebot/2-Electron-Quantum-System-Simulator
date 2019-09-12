@@ -1,0 +1,61 @@
+CMPR    = gnu
+# 
+#                      GNU  COMPILER
+#
+FC     = gfortran
+F90    = gfortran
+F95    = gfortan
+CXX    = g++
+C      = gcc
+#
+#                      COMPILER'S OPTIONS
+#
+#   development
+#  
+#
+#FCFLAGS   = -g (debug)
+#F90FLAGS  = -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1 -g -fcheck=all -fbacktrace
+#F95FLAGS  = -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1 -O3 -march=native -ffast-math -funroll-loops
+#
+#   optimize
+#
+FCFLAGS   =  # -g (debug)
+F90FLAGS  = -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1 -O3 -march=native -ffast-math -funroll-loops
+F95FLAGS  = -Wall -Wextra -Wimplicit-interface -fPIC -fmax-errors=1 -g -fcheck=all -fbacktrace
+CXXFLAGS  = -O3 
+CFLAGS    =   
+#
+#
+#
+STATIC =     
+#-static
+#
+#                        CMPR LIBS
+#
+#
+LIB_ACML    = /opt/acml/gfortran/gfortran64/lib
+LIB_ACML_MP = /opt/acml/gfortran/gfortran64_mp/lib
+LIB_CMPR    = ${HOME}/amo/lib/${CMPR}
+LIB_ODE     = ${HOME}/lib/ode/lib
+LIB_GSL     = ${HOME}/amo/lib/gsl/lib
+LIB_NETCDF  = /usr/lib
+#${HOME}/amo/lib/${CMPR}/netcdf/lib
+INC_CMPR   = 
+INCLUDE    = -Iinclude -I/usr/include
+#-I${LIB_CMPR}/netcdf/include
+#
+#
+#  LINK  CMPR'S LIBS
+#
+#
+LINK_SLATEC   = -lslatec          -L${LIB_CMPR}
+LINK_NAG17    = -lnag             -L${LIB_CMPR}
+LINK_ACML_MP  = ${STATIC} -fopenmp  /opt/acml/gfortran/gfortran64/lib/libacml_mp.a
+LINK_ACML     = ${STATIC}           /opt/acml/gfortran/gfortran64/lib/libacml.a
+LINK_LAPACK   = ${LIB_ACML}
+LINK_BLAS     = ${LIB_ACML} 
+LINK_ODE      = -lode_gfortran    -L${LIB_ODE} 
+LINK_NETCDF_C = -lnetcdf          -L${LIB_NETCDF}
+LINK_NETCDF_F = -lnetcdff         -L${LIB_NETCDF}
+LINK_GSL      = -lgsl -lgslcblas  -L${LIB_GSL}   -lm 
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

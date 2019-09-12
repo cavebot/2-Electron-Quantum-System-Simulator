@@ -1,0 +1,26 @@
+#!/bin/sh
+
+#
+# $1 maximum (total) angular momentum
+#
+
+echo    '# run-wf2e-b ' $1 
+echo    '# spectrum for      l2e = ' $1
+echo    '#               exe dir = ' $2
+echo    '# cfg-l.inp must be edited.'
+
+sbin=$2
+
+echo 'Rv2eb  L= ' $1
+
+$sbin/Rv2eb $1            > out/v2e.L$1.out
+
+echo 'Rh2eb  l= ' $1
+
+$sbin/Rh2eb $1            > out/h2e.L$1.out
+
+#echo 'Rw2eb  l= ' $1 
+#$sbin/Rw2eb $1 $2        > out/w2e.L$1.n$2.out
+
+
+echo 'run-2e done.'

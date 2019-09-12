@@ -1,0 +1,8 @@
+therion 5.3.16
+initialization file: /etc/therion.ini
+reading ... done
+configuration file: thconfig
+reading ... done
+reading source files ... 
+therion: error -- can't open file for input -- carrowmore.th
+writing xtherion file ... done

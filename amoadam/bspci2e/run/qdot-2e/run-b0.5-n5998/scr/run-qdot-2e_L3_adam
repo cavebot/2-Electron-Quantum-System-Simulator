@@ -1,0 +1,91 @@
+
+#
+#
+# run as:   ./scr/run-qdot-2e $1 $2
+#
+#    $1 = beta parameter of the qdot potential
+#    $2 = nof 2e states included in the tdse calculation
+#
+#
+# i.e.  beta = 0.14
+#       n2e  = 3500   
+#
+
+beta=$1
+n2e=$2
+
+
+mkdir -p  out
+mkdir -p  tout
+mkdir -p  dat
+mkdir -p  tdat
+
+bin/Rbspci2e -v 5.0 -zn $beta -rb 60.0 -nb 62
+bin/run-h1e-adam.scr 0 7 bin
+bin/run-h2e.scr 0 bin
+bin/run-h2e.scr 1 bin
+bin/run-h2e.scr 2 bin
+bin/run-h2e.scr 3 bin
+
+
+bin/run-d2e.scr 0 1 $n2e v he bin
+bin/run-d2e.scr 1 2 $n2e v he bin
+bin/run-d2e.scr 2 3 $n2e v he bin
+
+#.... tdse
+bin/Rncf 0 2 v $n2e 
+
+#bin/Rtdse_bs
+
+
+
+mkdir -p    run-b$beta
+
+cp -r scr   run-b$beta/
+
+#..... se
+mv out      run-b$beta/
+mv log      run-b$beta/
+mv dat      run-b$beta/
+cp -r  inp  run-b$beta/
+
+mv tout     run-b$beta/
+mv tdat     run-b$beta/
+
+#...... tdse
+mkdir -p    out
+mkdir -p    dat
+mkdir -p    log
+mkdir -p    tout
+mkdir -p    tdat
+cp -r tinp  run-b$beta/
+
+
+
+echo time > run-b$1
+#
+#
+# readme:    
+#        - in the parameters file setting nl=5 will result to crash
+#            when the cfg files include l1e = 4 and above.
+# 
+#        - znuc corresponds to the 'beta' paramerer of Sajeev and
+#               Moiseyev paper
+#        - d2eb can't include all n2e=13000 2e-states. Linux
+#          static compilation issue
+#
+#
+# files to be edited:
+#
+#  prior to compile time : parameter_1e.inp parameter_2e.inp
+#
+# prior to runtime:
+#   tise part:
+# - inp/bsci2e.inp, inp/h1e.inp, inp/r12.inp
+# - inp/cfg-l.inp, L = 0,1....
+#   tdse part:
+# - tinp/pulse.inp , tinp/tdse_bs.inp
+#
+#
+#
+

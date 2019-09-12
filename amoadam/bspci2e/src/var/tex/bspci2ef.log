@@ -1,0 +1,180 @@
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=latex 2013.6.11)  16 MAR 2014 10:12
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**bspci2ef.tex
+(./bspci2ef.tex
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, lo
+aded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/latex209.def
+File: latex209.def 1998/05/13 v0.52 Standard LaTeX file
+
+
+          Entering LaTeX 2.09 COMPATIBILITY MODE
+ *************************************************************
+    !!WARNING!!    !!WARNING!!    !!WARNING!!    !!WARNING!!   
+ 
+ This mode attempts to provide an emulation of the LaTeX 2.09
+ author environment so that OLD documents can be successfully
+ processed. It should NOT be used for NEW documents!
+ 
+ New documents should use Standard LaTeX conventions and start
+ with the \documentclass command.
+ 
+ Compatibility mode is UNLIKELY TO WORK with LaTeX 2.09 style
+ files that change any internal macros, especially not with
+ those that change the FONT SELECTION or OUTPUT ROUTINES.
+ 
+ Therefore such style files MUST BE UPDATED to use
+          Current Standard LaTeX: LaTeX2e.
+ If you suspect that you may be using such a style file, which
+ is probably very, very old by now, then you should attempt to
+ get it updated by sending a copy of this error message to the
+ author of that file.
+ *************************************************************
+
+\footheight=\dimen102
+\@maxsep=\dimen103
+\@dblmaxsep=\dimen104
+\@cla=\count79
+\@clb=\count80
+\mscount=\count81
+(/usr/share/texlive/texmf-dist/tex/latex/base/tracefnt.sty
+Package: tracefnt 1997/05/29 v3.0j Standard LaTeX package (font tracing)
+\tracingfonts=\count82
+LaTeX Info: Redefining \selectfont on input line 101.
+)
+\symbold=\mathgroup4
+\symsans=\mathgroup5
+\symtypewriter=\mathgroup6
+\symitalic=\mathgroup7
+\symsmallcaps=\mathgroup8
+\symslanted=\mathgroup9
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 293.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 294.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 295.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 301.
+LaTeX Info: Redefining \em on input line 311.
+
+(/usr/share/texlive/texmf-dist/tex/latex/base/latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup10
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+LaTeX Font Info:    Redeclaring math delimiter \lgroup on input line 375.
+LaTeX Font Info:    Redeclaring math delimiter \rgroup on input line 377.
+LaTeX Font Info:    Redeclaring math delimiter \bracevert on input line 379.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count83
+\c@section=\count84
+\c@subsection=\count85
+\c@subsubsection=\count86
+\c@paragraph=\count87
+\c@subparagraph=\count88
+\c@figure=\count89
+\c@table=\count90
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+Compatibility mode: definition of \rm ignored.
+Compatibility mode: definition of \sf ignored.
+Compatibility mode: definition of \tt ignored.
+Compatibility mode: definition of \bf ignored.
+Compatibility mode: definition of \it ignored.
+Compatibility mode: definition of \sl ignored.
+Compatibility mode: definition of \sc ignored.
+LaTeX Info: Redefining \cal on input line 506.
+LaTeX Info: Redefining \mit on input line 507.
+\bibindent=\dimen105
+)
+(/usr/share/texlive/texmf-dist/tex/latex/ntgclass/a4.sty
+Package: a4 2004/04/15 v1.2g A4 based page layout
+)
+No file bspci2ef.aux.
+\openout1 = `bspci2ef.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+[1
+
+]
+Overfull \hbox (58.64635pt too wide) in paragraph at lines 145--145
+[]\OT1/cmtt/m/n/10 SOURCES1 = modules.f90 modio.f90 h1e.f90 spack.f soleig-fxd.
+f VHF_sub.f rinbat.f[] 
+ []
+
+
+Overfull \hbox (58.64635pt too wide) in paragraph at lines 145--145
+[]\OT1/cmtt/m/n/10 OBJECTS1 = modules.o   modio.o   h1e.o   spack.o soleig-fxd.
+o VHF_sub.o rinbat.o[] 
+ []
+
+
+Overfull \hbox (69.14626pt too wide) in paragraph at lines 145--145
+[]\OT1/cmtt/m/n/10 SOURCES2b = modio.f90 modules.f90 hdmx1eb.f90 bsp.f #dmxbbv.
+f90 modules.f90  bsp.f[] 
+ []
+
+
+Overfull \hbox (11.39676pt too wide) in paragraph at lines 145--145
+[]\OT1/cmtt/m/n/10 SOURCES3 = hr12.f    subhr12.f   ykfct-hx.f subio.f   cxfin1
+.f    ang.f[] 
+ []
+
+
+Overfull \hbox (6.1468pt too wide) in paragraph at lines 145--145
+[]\OT1/cmtt/m/n/10 OBJECTS3 =  hr12.o    subhr12.o  ykfct-hx.o subio.o   cxfin1
+.o   ang.o[] 
+ []
+
+
+Overfull \hbox (63.8963pt too wide) in paragraph at lines 145--145
+[]\OT1/cmtt/m/n/10 SOURCES6a = modio.f90 modhdmx2ebf.f90  subio.f  cxfin1.f hdm
+x2ebf.f90 subhdmx2e.f[] 
+ []
+
+
+Overfull \hbox (63.8963pt too wide) in paragraph at lines 145--145
+[]\OT1/cmtt/m/n/10 OBJECTS6a = modio.o   modhdmx2ebf.o    subio.o  cxfin1.o hdm
+x2ebf.o   subhdmx2e.o[] 
+ []
+
+
+Overfull \hbox (53.3964pt too wide) in paragraph at lines 145--145
+[]\OT1/cmtt/m/n/10 SOURCES6b = modio.f90 modhdmx2eff.f90 subio.f hdmx2eff.f90 c
+xfin1.f subhdmx2e.f[] 
+ []
+
+
+Overfull \hbox (53.3964pt too wide) in paragraph at lines 145--145
+[]\OT1/cmtt/m/n/10 OBJECTS6b = modio.o   modhdmx2eff.o   subio.o hdmx2eff.o   c
+xfin1.o subhdmx2e.o[] 
+ []
+
+[2] [3] (./bspci2ef.aux) ) 
+Here is how much of TeX's memory you used:
+ 314 strings out of 495060
+ 3625 string characters out of 3182053
+ 53252 words of memory out of 3000000
+ 3569 multiletter control sequences out of 15000+200000
+ 5018 words of font info for 19 fonts, out of 3000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 19i,4n,22p,182b,225s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+Output written on bspci2ef.dvi (3 pages, 5860 bytes).

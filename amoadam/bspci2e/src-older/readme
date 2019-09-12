@@ -1,0 +1,36 @@
+
+*** log notes added by laan030907qub
+
+
+--*-- working with ifort compiler 
+--*-- pgf90 compiler though compiler causes incorrect behaviour for k2e.f90
+
+
+
+
+--*-- cs1ph(1s^2 --> nlel') with  en(nl) < 0 works o.k (seems to). 
+
+** simplification the input subroutines. gradually abandoning OUT, DAT file
+ 
+
++++03/09/2007+++
+
+---note---03/09/2007
+
+** summation for cs1ph++ over the 1-e target states might be better performed 
+   and more rigorously if we sum over the target energies of the same symmetry.
+   This because of the fxd boundary condition imposed for the inner electron, 
+   thus resulting to different discretization for each partial wave l=0,1,2,.. 
+   
+** similar argument should hold for cs2ph++ as well. Or more generally for any 
+   integration that involves energies of the inner electron (if its wf has been 
+   generated with fxd bc).
+
+---note---03/09/2007
+
+
++++04/09/2007+++
+
+--check-- : need to check phase convention for lsi = 0(singlet, phase=1), 1(triplet,phase=-1) 
+
+   

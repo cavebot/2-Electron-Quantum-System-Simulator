@@ -1,0 +1,111 @@
+20190131   161648.561  bin/Rw1e_adam la= 0 a= save                                 
+20190131   161648.734  bin/Rw1e_adam la= 1 a= save                                 
+20190131   161648.906  bin/Rw1e_adam la= 2 a= save                                 
+20190131   161649.082  bin/Rw1e_adam la= 3 a= save                                 
+20190131   161649.252  bin/Rw1e_adam la= 4 a= save                                 
+20190131   161649.423  bin/Rw1e_adam la= 5 a= save                                 
+20190131   161649.595  bin/Rw1e_adam la= 6 a= save                                 
+20190131   161649.767  bin/Rw1e_adam la= 7 a= save                                 
+20190131   161649.944  bin/Rw1e_adam la= 0 lb= 6 a= merge                          
+20190131   161649.946  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= l                    
+20190131   161649.975  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= v                    
+20190308   163416.291  bin/Rw1e_adam la= 0 a= save                                 
+20190308   163416.516  bin/Rw1e_adam la= 1 a= save                                 
+20190308   163416.719  bin/Rw1e_adam la= 2 a= save                                 
+20190308   163416.891  bin/Rw1e_adam la= 3 a= save                                 
+20190308   163417.069  bin/Rw1e_adam la= 4 a= save                                 
+20190308   163417.244  bin/Rw1e_adam la= 5 a= save                                 
+20190308   163417.416  bin/Rw1e_adam la= 6 a= save                                 
+20190308   163417.589  bin/Rw1e_adam la= 7 a= save                                 
+20190308   163417.769  bin/Rw1e_adam la= 0 lb= 6 a= merge                          
+20190308   163417.770  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= l                    
+20190308   163417.799  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= v                    
+20190308   163836.310  bin/Rw1e_adam la= 0 a= save                                 
+20190308   163836.315  bin/Rw1e_adam la= 1 a= save                                 
+20190308   163836.319  bin/Rw1e_adam la= 2 a= save                                 
+20190308   163836.323  bin/Rw1e_adam la= 3 a= save                                 
+20190308   163836.327  bin/Rw1e_adam la= 4 a= save                                 
+20190308   163836.331  bin/Rw1e_adam la= 5 a= save                                 
+20190308   163836.336  bin/Rw1e_adam la= 6 a= save                                 
+20190308   163836.340  bin/Rw1e_adam la= 7 a= save                                 
+20190308   163836.347  bin/Rw1e_adam la= 0 lb= 6 a= merge                          
+20190308   163836.349  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= l                    
+20190308   163836.351  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= v                    
+20190308   165135.066  bin/Rw1e_adam la= 0 a= save                                 
+20190308   165135.072  bin/Rw1e_adam la= 1 a= save                                 
+20190308   165135.079  bin/Rw1e_adam la= 2 a= save                                 
+20190308   165135.086  bin/Rw1e_adam la= 3 a= save                                 
+20190308   165135.093  bin/Rw1e_adam la= 4 a= save                                 
+20190308   165135.102  bin/Rw1e_adam la= 5 a= save                                 
+20190308   165135.108  bin/Rw1e_adam la= 6 a= save                                 
+20190308   165135.112  bin/Rw1e_adam la= 7 a= save                                 
+20190308   165135.118  bin/Rw1e_adam la= 0 lb= 6 a= merge                          
+20190308   165135.119  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= l                    
+20190308   165135.121  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= v                    
+20190308   165229.849  bin/Rw1e_adam la= 0 a= save                                 
+20190308   165230.049  bin/Rw1e_adam la= 1 a= save                                 
+20190308   165230.222  bin/Rw1e_adam la= 2 a= save                                 
+20190308   165230.411  bin/Rw1e_adam la= 3 a= save                                 
+20190308   165230.591  bin/Rw1e_adam la= 4 a= save                                 
+20190308   165230.769  bin/Rw1e_adam la= 5 a= save                                 
+20190308   165230.946  bin/Rw1e_adam la= 6 a= save                                 
+20190308   165231.123  bin/Rw1e_adam la= 7 a= save                                 
+20190308   165231.308  bin/Rw1e_adam la= 0 lb= 6 a= merge                          
+20190308   165231.310  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= l                    
+20190308   165231.339  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= v                    
+20190311   115004.867  bin/Rw1e_adam la= 0 a= save                                 
+20190311   115005.068  bin/Rw1e_adam la= 1 a= save                                 
+20190311   115005.242  bin/Rw1e_adam la= 2 a= save                                 
+20190311   115005.423  bin/Rw1e_adam la= 3 a= save                                 
+20190311   115005.603  bin/Rw1e_adam la= 4 a= save                                 
+20190311   115005.781  bin/Rw1e_adam la= 5 a= save                                 
+20190311   115005.960  bin/Rw1e_adam la= 6 a= save                                 
+20190311   115006.140  bin/Rw1e_adam la= 7 a= save                                 
+20190311   115006.328  bin/Rw1e_adam la= 0 lb= 6 a= merge                          
+20190311   115006.329  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= l                    
+20190311   115006.359  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= v                    
+20190311   115125.456  bin/Rw1e_adam la= 0 a= save                                 
+20190311   115125.662  bin/Rw1e_adam la= 1 a= save                                 
+20190311   115125.839  bin/Rw1e_adam la= 2 a= save                                 
+20190311   115126.025  bin/Rw1e_adam la= 3 a= save                                 
+20190311   115126.209  bin/Rw1e_adam la= 4 a= save                                 
+20190311   115126.392  bin/Rw1e_adam la= 5 a= save                                 
+20190311   115126.576  bin/Rw1e_adam la= 6 a= save                                 
+20190311   115126.758  bin/Rw1e_adam la= 7 a= save                                 
+20190311   115126.947  bin/Rw1e_adam la= 0 lb= 6 a= merge                          
+20190311   115126.949  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= l                    
+20190311   115126.979  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= v                    
+20190311   115417.384  bin/Rw1e_adam la= 0 a= save                                 
+20190311   115417.588  bin/Rw1e_adam la= 1 a= save                                 
+20190311   115417.762  bin/Rw1e_adam la= 2 a= save                                 
+20190311   115417.944  bin/Rw1e_adam la= 3 a= save                                 
+20190311   115418.123  bin/Rw1e_adam la= 4 a= save                                 
+20190311   115418.301  bin/Rw1e_adam la= 5 a= save                                 
+20190311   115418.480  bin/Rw1e_adam la= 6 a= save                                 
+20190311   115418.660  bin/Rw1e_adam la= 7 a= save                                 
+20190311   115419.117  bin/Rw1e_adam la= 0 lb= 6 a= merge                          
+20190311   115419.120  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= l                    
+20190311   115419.176  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= v                    
+20190508   145101.183  ./bin/Rtdse_bs_pes                                          
+20190524   143737.811  bin/Rw1e_adam la= 0 a= save                                 
+20190524   143737.990  bin/Rw1e_adam la= 1 a= save                                 
+20190524   143738.168  bin/Rw1e_adam la= 2 a= save                                 
+20190524   143738.343  bin/Rw1e_adam la= 3 a= save                                 
+20190524   143738.518  bin/Rw1e_adam la= 4 a= save                                 
+20190524   143738.694  bin/Rw1e_adam la= 5 a= save                                 
+20190524   143738.870  bin/Rw1e_adam la= 6 a= save                                 
+20190524   143739.045  bin/Rw1e_adam la= 7 a= save                                 
+20190524   143739.229  bin/Rw1e_adam la= 0 lb= 6 a= merge                          
+20190524   143739.230  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= l                    
+20190524   143739.260  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= v                    
+20190524   143840.529  bin/Rw1e_adam la= 0 a= save                                 
+20190524   143840.705  bin/Rw1e_adam la= 1 a= save                                 
+20190524   143840.880  bin/Rw1e_adam la= 2 a= save                                 
+20190524   143841.058  bin/Rw1e_adam la= 3 a= save                                 
+20190524   143841.237  bin/Rw1e_adam la= 4 a= save                                 
+20190524   143841.412  bin/Rw1e_adam la= 5 a= save                                 
+20190524   143841.588  bin/Rw1e_adam la= 6 a= save                                 
+20190524   143841.766  bin/Rw1e_adam la= 7 a= save                                 
+20190524   143841.950  bin/Rw1e_adam la= 0 lb= 6 a= merge                          
+20190524   143841.951  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= l                    
+20190524   143841.982  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= v                    

@@ -1,0 +1,18 @@
+
+set terminal png
+set xrange [0:2.3]
+set yrange [0:2.3]
+
+set xlabel '{/Symbol e}_{1}(s.a.u)'
+set ylabel '{/Symbol e}_{2}(s.a.u)'
+#set term png font "/usr/local/fonts/pfa/Helvetica.pfa"
+#set pm3d map
+#set pm3d interpolate 3,3
+set palette 
+set size square
+set key off
+
+set title 'l_{1}=0, l_{2}=2' 
+set output "pes2D-02.png"
+splot 'pes_2D_C8.dat' using 1:2:3 with points
+

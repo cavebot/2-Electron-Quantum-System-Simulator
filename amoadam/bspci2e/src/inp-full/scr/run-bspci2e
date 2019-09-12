@@ -1,0 +1,34 @@
+# run as
+#run-bsci2eb.pl exe system znuc l1e n1e l2e n2e rb_min rb_max dr_b 
+
+#
+# prepare  inp/bspci2e.inp
+#          inp/r12.inp  inp/grid.inp
+#          cfg-L.inp, L = 0, 1, ...
+#
+#
+
+
+#
+# set environment for openMP (if available)
+#
+
+export OMP_NUM_THREADS=8
+echo "# nof threads running: " $OMP_NUM_THREADS
+
+
+#
+# 
+# then call script from the 'src' directory as:
+#
+#
+#    bspci2eb.pl       exe system znuc  l1e n1e l2e n2e   rb_min rb_max dr_b 
+#
+#
+
+
+../../src/bspci2eb.pl bin ne8    10.0  7   170  3  1200  20 21  0.25
+
+
+#../../src/csNph.pl bin ne8  1 l 20  21 0.25
+

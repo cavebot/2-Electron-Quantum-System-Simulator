@@ -1,0 +1,253 @@
+!---25/01/2019---
+!Program calculates the 2-e Radial Distribution in terms of
+!the 1-e radial wavefunctions, configuaration interaction coefficients,
+!and TDSE coefficients according (Reference to be added)
+
+program rd2e
+
+    use parameter_tdse_fxd
+    use bs_frb_2e,      only: read_target_energies
+    use io
+    use param,          only: np  !Number of wavefunction grid points
+    use precision
+    use atom_2e                 !Provides routines for reading CI coefficients
+
+    implicit none
+
+
+    real(DPK) :: dummie1, dummie2, dummie3, dummie4 ,dummie5
+    integer   :: dummie6
+    integer   :: ll1,ll2, nn1, nn2, nn1p, nn2p, nof_l_ncf
+    real(DPK) :: pr1, pr1p, pr2, pr2p, p1, p2
+    real(DPK) :: pop_t_ie
+
+    !Redundant variables now after reformulating loops. Fix this.
+    integer                 :: counter !for checking progress
+    integer                 :: i, ijmax                !Index for energies
+    integer                 :: l, l1max                !Index for angular momenta
+    integer                 :: ic, ic_p, ie, ie_max    !,ie_p        !Index for reformulated summations in terms of configuration number
+    integer                 :: nof_points
+    real(dpk), dimension(:,:), pointer :: en1e        !nl,ns
+
+!Wavefunction variables
+    integer                 :: ir, ir1, ir2            !Wavefunction point index, i.e piont 1, 2, etc
+    real(DPK), dimension(:), allocatable :: r          !Wavfefunction grid values
+    real(DPK), dimension(:,:,:), allocatable:: p       !Wavefunction values, P_nl(r)
+    complex(DPK), dimension(:,:)  , allocatable:: prr  !2e radial distribution
+    complex(DPK), dimension(:,:)  , allocatable:: work !dummy array for 2e distribution summation
+
+    character(len=25) :: wf1efilename              !Wavefunction data file
+    logical :: file_exists
+
+!configuration interaction variables
+    type(symmetry_ls2e), allocatable, dimension(:) :: w2e
+
+
+!----------------------------Get number of states 1e from inp/h1e.inp -------------------------
+    open(unit = 8, file = "inp/h1e.inp", status = 'old')
+
+        !Dummie file read
+        read(8, '(2f15.5,10x,a10)')           dummie1, dummie2
+        read(8, '(a10,2f10.5,10x,a25)')       dummie3, dummie4, dummie5
+        !read number of B-splines
+        read(8, '(2I15,10x,a8)') ijmax, dummie6
+        write(*,*) "#Number of b-splines = ", ijmax
+
+    close(8)
+
+        ijmax = ijmax - 2
+        write(*,*) "#Number of eigenstates = ", ijmax
+    write(*,*)
+!------------------------Check wavefunction files exist. Retrive maximum angular momentum-----------
+
+    l = 0
+    write (wf1efilename, '(a,I1,a)') 'out/1ewavefunctions-',l,'.out'
+    inquire(FILE = wf1efilename, EXIST = file_exists)
+
+        if (file_exists) then
+        write(*,*) "#Wavefunction files found"
+        write(*,*) "#Finding number of partial wave files"
+        write(*,*)
+    else
+        write(*,*) "#Could not find wavefunction files, 1ewavefunction-l.out."
+        write(*,*) "#Terminating program"
+        stop
+    end if
+
+    do while (file_exists)
+        write (wf1efilename, '(a,I1,a)') 'out/1ewavefunctions-',l,'.out'
+        inquire(FILE = wf1efilename, EXIST = file_exists)
+        if(file_exists) then
+            write(*,*) "#File found: ", wf1efilename
+            l = l + 1
+        else
+            exit
+        end if
+    end do
+
+    write(*,*)
+
+    l1max = l
+    write(*,*) "#Number of partial waves = l1max = ", l1max
+    write(*,*) "#number of wavefunction points = ", np
+
+!-------Read wavefunctions to p(np,ijmax,l1max). Tested 28/01/2019. Correct to this point--------
+nof_points = 100
+    allocate (r(1:nof_points) )
+    allocate( p(1:nof_points,1:ijmax,l1max) )
+
+    loop_partial_waves: do l = 0, (l1max-1)
+
+        write (wf1efilename, '(a,I1,a)') 'out/1ewavefunctions-',l,'.out'
+            open(16, file = wf1efilename, status = 'old')
+
+        loop_eigenstates: do i = 1, ijmax !i will be reused later, dummie variable for now
+
+            read(16,'(3E20.10)') r(1) , p(1, i, l+1)
+
+                loop_wavefunction_grid: do ir = 2, 2000
+
+                   if (mod(ir, 20) .eq. 0) then
+                      read(16,'(3E20.10)') r(ir/20) , p((ir/20), i, l+1)
+                   else
+                      read(16,'(3E20.10)')
+                   end if
+
+                end do loop_wavefunction_grid
+
+             end do loop_eigenstates
+
+             close(16)
+
+          end do loop_partial_waves
+
+          !--------------------------Read TDSE Coefficients and Configuration Interaction Coefficients-------------------------
+
+          call input_tdse_fxd              ! tinp/tdse_bs_fxd_2e.inp
+          call output_tdse_fxd             ! tout/tdse_bs_fxd_2e.out
+          call read_target_energies(en1e)  ! read 1e energies (in Ryd)
+
+          call read_w2e_ct(w2e,lmax)
+
+          do l = 0, lmax
+             call read_w2e_ci(w2e(l),l)     !reads coeffs Phi_j = \sum_i v_{ij} Phi^{(0)}_{i}
+          end do
+
+          !-----------------------------------Apply summation equation-----------------------------------
+
+          !Initialise 2e radial distribution matrix, prr = p(r1,r2)
+          allocate(  prr(1:nof_points, 1:nof_points) )
+          allocate( work(1:nof_points, 1:nof_points) )
+          prr  = 0.0_dpk
+          work = 0.0_dpk
+          counter  = 0
+          !ijmax = 60
+          !lmax = 7
+          !Nmax = 5998 Need to import this from somewhere
+
+          write(*,*) "#Number of L=0 configurations in sum/prime sums = ", w2e(0)%ncf
+          write(*,*) "#Number of L=1 configurations in sum/prime sums = ", w2e(1)%ncf
+          write(*,*) "#Number of L=2 configurations in sum/prime sums = ", w2e(2)%ncf
+          write(*,*) "#Number of L=3 configurations in sum/prime sums = ", w2e(3)%ncf
+
+          loop_L: do l = 0, lmax
+
+             nof_l_ncf = w2e(l)%ncf
+             !Set maximum number of 2e energies to sum over for various L symmetries
+             if (l .eq. 0) then
+                ie_max = 834 !Retrieves maximum number of 2e energies to sum over
+             else if (l .eq. 1) then
+                ie_max = 1182 !Retrieves maximum number of 2e energies to sum over
+             else if (l .eq. 2) then
+                ie_max = 1314 !Retrieves maximum number of 2e energies to sum over
+             else if (l .eq. 3) then
+                ie_max = 1053 !Retrieves maximum number of 2e energies to sum over
+             end if
+             write(*,*) "#ie max = ", ie_max
+
+
+             loop_total_energy: do ie = 1, ie_max
+
+                pop_t_ie = abs( w2e(l)%ct(ie))**2
+
+                !    loop_total_energy_prime: do ie_p = 1, ie_max
+
+
+                loop_config_variables: do ic = 1, nof_l_ncf !sum from configuration 1 to max number of configurations, for the total  L
+                   loop_primed_config_variables: do ic_p = 1, nof_l_ncf
+
+            !make sure l1 and l2 variables are not selected incorrectly by using ic and ic_p
+            if ( (w2e(l)%l1(ic) .eq. w2e(l)%l1(ic_p)) .and. (w2e(l)%l2(ic) .eq. w2e(l)%l2(ic_p))) then
+
+
+               ll1 = w2e(l)%l1(ic) + 1
+               ll2 = w2e(l)%l2(ic) + 1
+
+               nn1 = w2e(l)%n1(ic)
+               nn1p = w2e(l)%n1(ic_p)
+
+               nn2  = w2e(l)%n2(ic)
+               nn2p = w2e(l)%n2(ic_p)
+
+               work = 0.0_dpk
+               loop_r1: do ir1 = 1, nof_points
+
+
+                  p1  =  p( ir1, nn1,  ll1 )
+
+                  pr1 =  p1  *  p( ir1, nn1p, ll2 )
+                  pr1p = p1  *  p( ir1, nn1p, ll1 )
+
+
+               loop_r2: do ir2 = ir1, nof_points
+
+                  p2   =  p( ir2, nn2,  ll2 )
+
+                  pr2  =  p2 *  p( ir2, nn2p, ll1 )
+                  pr2p =  p2  * p( ir2, nn2p, ll2 )
+
+
+
+                  work(ir1,ir2) =  pr1  * pr2  +  pr1p  * pr2p
+
+!                 ( (-1)**(ll1+ll2+l)) * &
+
+                  prr(ir2,ir1) = prr(ir2,ir1) + work(ir2,ir1)
+
+                    end do loop_r2
+                end do loop_r1
+
+                prr = prr *  w2e(l)%cv(ie,ic) * w2e(l)%cv(ie,ic_p)
+
+             end if
+          end do loop_primed_config_variables !(ic,ic_p)
+       end do loop_config_variables
+
+       prr = prr * pop_t_ie
+
+       !Test time taken
+       counter = counter + 1
+       write(*,*) counter
+
+       !end do loop_total_energy_prime (ie)
+    end do loop_total_energy
+
+ end do loop_L
+
+    !Save radial Distribution
+    open(18, file = "out/RD2e.out", status = 'replace')
+
+
+            do ir1 = 1, nof_points
+                do ir2 = 1, nof_points
+
+                  write(18,'(3E20.10)') prr(ir1,ir2), r(ir1), r(ir2)
+
+                end do
+            end do
+
+    close(16)
+
+
+
+end program rd2e

@@ -1,0 +1,11 @@
+20190524   143916.894  bin/Rw1e_adam la= 0 a= save                                 
+20190524   143917.071  bin/Rw1e_adam la= 1 a= save                                 
+20190524   143917.246  bin/Rw1e_adam la= 2 a= save                                 
+20190524   143917.420  bin/Rw1e_adam la= 3 a= save                                 
+20190524   143917.597  bin/Rw1e_adam la= 4 a= save                                 
+20190524   143917.771  bin/Rw1e_adam la= 5 a= save                                 
+20190524   143917.947  bin/Rw1e_adam la= 6 a= save                                 
+20190524   143918.122  bin/Rw1e_adam la= 7 a= save                                 
+20190524   143918.306  bin/Rw1e_adam la= 0 lb= 6 a= merge                          
+20190524   143918.308  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= l                    
+20190524   143918.337  bin/Rw1e_adam la= 0 lb= 7 a= dipole g= v                    

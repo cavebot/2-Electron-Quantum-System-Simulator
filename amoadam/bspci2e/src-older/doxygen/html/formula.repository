@@ -1,0 +1,3 @@
+\form#0:$ P_{di} = \sum_{E>0,nl>0} |\langle phi_0|psi(t) \rangle|^2$
+\form#1:$ P_{di} = \sum_{E>0,nl>0} |\langle \phi_0|\psi(t) \rangle|^2$
+\form#2:$ P(ic) = \sum_{ie} | cv(ie,ic) * ct(ie) |^2 $

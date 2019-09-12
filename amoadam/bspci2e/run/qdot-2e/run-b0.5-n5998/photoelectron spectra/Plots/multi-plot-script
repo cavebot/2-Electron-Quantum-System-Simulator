@@ -1,0 +1,49 @@
+
+
+#set xrange [0:80]
+#set yrange [0:80]
+
+
+set multiplot layout 2, 2 title "2 electron Radial Distributions" font ",14"
+set tmargin 1
+unset key
+
+set xtics 40
+set ytics 40
+
+set xlabel 'r_{1}(nm)'
+set ylabel 'r_{2}(nm)'
+set pm3d map
+set size square
+unset key
+set title 'l_{1}=0, l_{2}=0' 
+splot 'pes_2D_C2.dat' using 1:2:3
+
+set xlabel 'r_{1}(nm)'
+set ylabel 'r_{2}(nm)'
+set pm3d map
+set size square
+unset key
+set title 'l_{1}=1, l_{2}=1' 
+splot '2f-partial-waves-di-11' using 1:2:3
+
+set xlabel 'r_{1}(nm)'
+set ylabel 'r_{2}(nm)'
+set pm3d map
+set size square
+unset key
+set title 'l_{1}=0, l_{2}=2' 
+splot '2f-partial-waves-di-02' using 1:2:3
+
+set xlabel 'r_{1}(nm)'
+set ylabel 'r_{2}(nm)'
+set pm3d map
+set size square
+unset key
+set title 'l_{1}=2, l_{2}=2' 
+splot '2f-partial-waves-di-22' using 1:2:3
+
+
+unset multiplot
+
+set output "2fwave-all.png"
