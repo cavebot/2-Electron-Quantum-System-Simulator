@@ -1,0 +1,15 @@
+#set output "L2.png"
+#set terminal png
+#set xrange [0:15]
+#set yrange [0:15]
+
+set xlabel 'r_{1}(nm)'
+set ylabel 'r_{2}(nm)'
+#set term png font "/usr/local/fonts/pfa/Helvetica.pfa"
+set pm3d map
+set size square
+set key off
+
+set title 'L = 0, Double Ionisation Only' 
+splot 'ground-state-2000-with-norm.out' using 1:2:3
+

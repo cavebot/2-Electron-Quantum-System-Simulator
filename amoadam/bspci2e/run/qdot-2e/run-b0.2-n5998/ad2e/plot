@@ -1,0 +1,19 @@
+#set output "ad2e_k5.png"
+#set terminal png
+
+set encoding utf8 
+
+set xrange [0:360]
+set format y "%.0sx10^{%T}"
+#set yrange [0:15]
+
+set xlabel "{/Symbol q}_2"
+set ylabel "r_{2}(nm)"
+
+#set size square
+set key off
+
+set title '{/Times Angular Distribution, fixed ejection of one electrion}' 
+plot "ad2e_k5.out" title "" with lines
+
+
