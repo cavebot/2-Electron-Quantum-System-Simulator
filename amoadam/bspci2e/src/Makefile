@@ -458,19 +458,39 @@ LIBS36    = ${LINK_LIB}
 PRODUCT36 = Rpcolor
 #######
 POBJECTS37 = mod_precision.o bs1e_parameter.o   mod_utils-v1.o mod_bs_frb_2e.o\
-            mod_tdse_bs.o mod_tdse_bs_pop.o rd2e_partial_wave_double_ionisation.o
-OBJECTS37 = ${POBJECTS37:.o=.o}          #mpo 
+            mod_tdse_bs.o mod_tdse_bs_pop2.o rd2e_partial_wave_double_ionisation.o
+OBJECTS37 = ${POBJECTS37:.o=.o}           
 SOURCES37 = ${OBJECTS37:.o=.f90} 
 LIBS37    = ${LINK_LIB} ${LINK_LAPACK} ${LINK_NAG17} ${LINK_SLATEC} ${LINK_NETCDF_F} -fopenmp
 PRODUCT37 = rd2e_partial_wave_double_ionisation
 ###################################################  (parallel) (spse)
 POBJECTS37a = mod_precision.o bs1e_parameter.o   mod_utils-v1.o mod_bs_frb_2e.o\
             mod_tdse_bs.o mod_tdse_bs_pop.o rd2e_partial_wave_single_ionisation.o
-OBJECTS37a = ${POBJECTS37a:.o=.o}          #mpo 
+OBJECTS37a = ${POBJECTS37a:.o=.o}          
 SOURCES37a = ${OBJECTS37a:.o=.f90} 
 LIBS37a    = ${LINK_LIB} ${LINK_LAPACK} ${LINK_NAG17} ${LINK_SLATEC} ${LINK_NETCDF_F} -fopenmp
 PRODUCT37a = rd2e_partial_wave_single_ionisation
-
+#############################
+POBJECTS37b = mod_precision.o bs1e_parameter.o  mod_spherical_harmonics.o anglib.o mod_utils-v1.o mod_bs_frb_2e.o\
+            mod_tdse_bs.o mod_tdse_bs_pop.o mod_core_phase_shift.o ad2e_2d.o
+OBJECTS37b = ${POBJECTS37b:.o=.o}          
+SOURCES37b = ${OBJECTS37b:.o=.f90} 
+LIBS37b    = ${LINK_LIB} ${LINK_LAPACK} ${LINK_NAG17} ${LINK_SLATEC} ${LINK_NETCDF_F} -fopenmp
+PRODUCT37b = ad2e_2d
+######################## write a test bessel function to a file
+POBJECTS38 = mod_precision.o bs1e_parameter.o  mod_spherical_harmonics.o anglib.o mod_utils-v1.o mod_bs_frb_2e.o\
+            mod_tdse_bs.o mod_tdse_bs_pop.o bessel_print.o
+OBJECTS38 = ${POBJECTS38:.o=.o}         
+SOURCES38 = ${OBJECTS38:.o=.f90} 
+LIBS38    = ${LINK_LIB} ${LINK_LAPACK} ${LINK_NAG17} ${LINK_SLATEC} ${LINK_NETCDF_F} -fopenmp
+PRODUCT38 = bessel_print
+######################## Seperate radial wf file for given l into individual files
+POBJECTS38a = mod_precision.o bs1e_parameter.o  mod_spherical_harmonics.o anglib.o mod_utils-v1.o mod_bs_frb_2e.o\
+            mod_tdse_bs.o mod_tdse_bs_pop.o radial_function_separator.o
+OBJECTS38a = ${POBJECTS38a:.o=.o}         
+SOURCES38a = ${OBJECTS38a:.o=.f90} 
+LIBS38a    = ${LINK_LIB} ${LINK_LAPACK} ${LINK_NAG17} ${LINK_SLATEC} ${LINK_NETCDF_F} -fopenmp
+PRODUCT38a = radial_separator
 
 
 
@@ -828,6 +848,21 @@ ${PRODUCT37a}: $(OBJECTS37a)
 	 $(F90) $(PROFFLAG37a) $(F90FLAGS) -o $(PRODUCT37a) $(OBJECTS37a) $(LIBS37a)
 	 mv ${PRODUCT37a} ${BIN}
 #	 mv ${PRODUCT37a} ${AMO_BIN}
+
+${PRODUCT37b}: $(OBJECTS37b) 
+	 $(F90) $(PROFFLAG37b) $(F90FLAGS) -o $(PRODUCT37b) $(OBJECTS37b) $(LIBS37b)
+	 mv ${PRODUCT37b} ${BIN}
+#	 mv ${PRODUCT37b} ${AMO_BIN}
+
+${PRODUCT38}: $(OBJECTS38) 
+	 $(F90) $(PROFFLAG38) $(F90FLAGS) -o $(PRODUCT38) $(OBJECTS38) $(LIBS38)
+	 mv ${PRODUCT38} ${BIN}
+#	 mv ${PRODUCT38} ${AMO_BIN}
+${PRODUCT38a}: $(OBJECTS38a) 
+	 $(F90) $(PROFFLAG38a) $(F90FLAGS) -o $(PRODUCT38a) $(OBJECTS38a) $(LIBS38a)
+	 mv ${PRODUCT38a} ${BIN}
+#	 mv ${PRODUCT38a} ${AMO_BIN}
+
 
 # pattern rules
 c      = $(C)   $(CFLAGS)   $(INCLUDE)  -c $<  -o $@
