@@ -27,7 +27,7 @@ program rd2e
     integer,   allocatable, dimension(:)        :: ndi_l           ! pop with  E(ndi_l,l) = E++
     integer,   allocatable, dimension(:)        :: nsi_l           ! pop with  E(ndi_l,l) = E+
     integer                                     :: n_l2e           ! nof CI states of symmetry l2e
-
+    integer                                     :: cycle  !cycle number (time of evaluation of distribution)
 
 !Redundant variables now after reformulating loops. Fix this.
     integer                 :: counter !for checking progress
@@ -53,16 +53,19 @@ program rd2e
     integer:: t1, t2, clock_rate, clock_max
 
 !command line arguments
-    character(len=64):: partial_l1, partial_l2, rd2efilename!, L_total
-    integer:: l1_int, l2_int !, L_int
+    character(len=100):: partial_l1, partial_l2, num_cycles ,rd2efilename
+    integer:: l1_int, l2_int, num_cycles_int!, L_int
 
 
 !get cmd arguments
 !    call getarg(1, L_total)
     call getarg(1, partial_l1)
     call getarg(2, partial_l2)
+    call getarg(3, num_cycles)
     read(partial_l1(1:1), "(i1)") l1_int
     read(partial_l2(1:1), "(i1)") l2_int
+    read(num_cycles(1:2), "(i2)") num_cycles_int
+    write(*,*) num_cycles_int, "num cycles from cmd line"
    !read(L_total(1:1), "(i1)") L_int
 
 
@@ -117,7 +120,7 @@ program rd2e
 
 
 
-    nof_points = 200
+    nof_points = 250
     nof_points2 = 200
     mod_dummy = 2000/nof_points
 
@@ -161,7 +164,12 @@ program rd2e
           call input_tdse_fxd              ! tinp/tdse_bs_fxd_2e.inp
           call output_tdse_fxd             ! tout/tdse_bs_fxd_2e.out
           call read_target_energies(en1e)  ! read 1e energies (in Ryd)
-          call read_w2e_ct(w2e,lmax)
+
+          cycle = num_cycles_int
+
+          write(*,*) "Calculating field cycle", cycle
+
+          call read_w2e_ct(w2e,lmax,cycle)
 
           do l = 0, lmax
              call read_w2e_ci(w2e(l),l)     !reads coeffs Phi_j = \sum_i v_{ij} Phi^{(0)}_{i}
@@ -283,6 +291,10 @@ program rd2e
 
        !-----------------------------------Apply summation equation-----------------------------------
 
+write(rd2efilename,"(a,i1,i1,a)") "rd2e/partial-waves/time_evolution/f-di-pw-", l1_int,l2_int, "-cycle-"
+rd2efilename  = trim(rd2efilename)//trim(num_cycles)
+open(19, file = rd2efilename, status = 'replace')
+
 
 call system_clock ( t1, clock_rate, clock_max )
 
@@ -312,81 +324,7 @@ loop_L: do l = 0, 3!lmax
   !end if
   write(*,*) "#ie max = ", ie_max
 
-  if ((l1_int .eq. 0) .and. (l2_int .eq. 0) .and. (l .eq. 1)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 0) .and. (l2_int .eq. 0) .and. (l .eq. 2)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 0) .and. (l2_int .eq. 0) .and. (l .eq. 3)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 1) .and. (l2_int .eq. 1) .and. (l .eq. 1)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 1) .and. (l2_int .eq. 1) .and. (l .eq. 3)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 2) .and. (l2_int .eq. 2) .and. (l .eq. 1)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 2) .and. (l2_int .eq. 2) .and. (l .eq. 3)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 3) .and. (l2_int .eq. 3) .and. (l .eq. 1)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 3) .and. (l2_int .eq. 3) .and. (l .eq. 3)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 0) .and. (l2_int .eq. 1) .and. (l .eq. 0)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 0) .and. (l2_int .eq. 1) .and. (l .eq. 2)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 0) .and. (l2_int .eq. 1) .and. (l .eq. 3)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 0) .and. (l2_int .eq. 2) .and. (l .eq. 0)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 0) .and. (l2_int .eq. 2) .and. (l .eq. 1)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 0) .and. (l2_int .eq. 2) .and. (l .eq. 3)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 0) .and. (l2_int .eq. 3) .and. (l .eq. 0)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 0) .and. (l2_int .eq. 3) .and. (l .eq. 1)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 0) .and. (l2_int .eq. 3) .and. (l .eq. 2)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 1) .and. (l2_int .eq. 2) .and. (l .eq. 0)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 1) .and. (l2_int .eq. 2) .and. (l .eq. 2)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 1) .and. (l2_int .eq. 3) .and. (l .eq. 0)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 1) .and. (l2_int .eq. 3) .and. (l .eq. 1)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 1) .and. (l2_int .eq. 3) .and. (l .eq. 3)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 2) .and. (l2_int .eq. 3) .and. (l .eq. 0)) then
-    cycle loop_L
-  end if
-  if ((l1_int .eq. 2) .and. (l2_int .eq. 3) .and. (l .eq. 2)) then
-    cycle loop_L
-  end if
+
 
 
   loop_r1: do ir1 = 1, nof_points2
@@ -415,7 +353,7 @@ loop_L: do l = 0, 3!lmax
           nn2 = w2e(l)%n2(ic)
           e1  = e1e(ll1, nn1 )
           e2  = e1e(ll2, nn2 )
-          !write(*,*)  nn1, ll1, ";", ll1, nn2
+          write(*,*)  nn1, e1
 
           !if((e1 < 0) .or. (e2 < 0)) then
           !  write(*,*)  e1, e2
@@ -451,8 +389,7 @@ write ( *, * ) 'Elapsed real time = ', real ( t2 - t1 ) / real ( clock_rate )
 
 
  !Mirror across diagonal and write to file
- write(rd2efilename,"(a,i1,i1)") "rd2e/partial-waves/2f-partial-waves-di-", l1_int,l2_int
- open(19, file = rd2efilename, status = 'replace')
+
          do ir1 = 1, nof_points2
              do ir2 = 1, nof_points2
                if ((ir2 .ge. ir1)) then

@@ -472,11 +472,11 @@ LIBS37a    = ${LINK_LIB} ${LINK_LAPACK} ${LINK_NAG17} ${LINK_SLATEC} ${LINK_NETC
 PRODUCT37a = rd2e_partial_wave_single_ionisation
 #############################
 POBJECTS37b = mod_precision.o bs1e_parameter.o  mod_spherical_harmonics.o anglib.o mod_utils-v1.o mod_bs_frb_2e.o\
-            mod_tdse_bs.o mod_tdse_bs_pop.o mod_core_phase_shift.o ad2e_2d.o
+            mod_tdse_bs.o mod_tdse_bs_pop.o ad2e_l1l2.o
 OBJECTS37b = ${POBJECTS37b:.o=.o}          
 SOURCES37b = ${OBJECTS37b:.o=.f90} 
 LIBS37b    = ${LINK_LIB} ${LINK_LAPACK} ${LINK_NAG17} ${LINK_SLATEC} ${LINK_NETCDF_F} -fopenmp
-PRODUCT37b = ad2e_2d
+PRODUCT37b = ad2e_l1l2
 ######################## write a test bessel function to a file
 POBJECTS38 = mod_precision.o bs1e_parameter.o  mod_spherical_harmonics.o anglib.o mod_utils-v1.o mod_bs_frb_2e.o\
             mod_tdse_bs.o mod_tdse_bs_pop.o bessel_print.o

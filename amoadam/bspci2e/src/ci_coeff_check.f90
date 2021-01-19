@@ -14,14 +14,15 @@ program ad2e_test
     use atom_2e                 !Provides routines for reading CI/TDSE coefficients
     use anglib                  !module for clebsch-gordon Coefficients
     use spherical_harmonics     !module for spherical harmonics
-    !use core_phase_shift
+    use core_phase_shift
 
     implicit none
 
     real(DPK) :: pi
     real(DPK) :: dummie1, dummie2, dummie3, dummie4 ,dummie5
 
-    integer   :: ll1,ll2, nn1, nn2, nof_l_ncf
+    integer   :: ll1,ll2, nn1, nn2, nof_l_ncf, ll1check, ll2check
+    real(DPK) :: e1, e2 !single electron energies
     INTEGER   :: ne_1e, nl_1e
     INTEGER   :: l1e_max, dummie6
     real(dpk), dimension(:,:), pointer :: en1e        !nl,ns
@@ -32,6 +33,7 @@ program ad2e_test
     integer                                     :: cycle  !cycle number (time of evaluation of distribution)
 
 !Redundant variables now after reformulating loops. Fix this.
+    integer                 :: counter !for checking progress
     integer                 :: i, ijmax                !Index for energies
     integer                 :: l, l1max                !Index for angular momenta
     integer                 :: ic, ie, ie_max    !,ie_p        !Index for reformulated summations in terms of configuration number
@@ -41,25 +43,30 @@ program ad2e_test
 
     !Wavefunction variables
     type(symmetry_ls2e), allocatable, dimension(:) :: w2e
-    integer                 :: ir!, ir_skip            Wavefunction point index, i.e piont 1, 2, etc
+    integer                 :: ir, ir1, ir2!, ir_skip            Wavefunction point index, i.e piont 1, 2, etc
     real(DPK), dimension(:), allocatable :: r          !Wavfefunction grid values
     real(DPK), dimension(:,:,:), allocatable:: p       !Wavefunction values, P_nl(r)
+    complex(DPK), dimension(:,:)  , allocatable:: psi
     complex(DPK), dimension(:), allocatable:: work_A !bipolar spherical harmonic
     complex(DPK), dimension(:), allocatable:: A !bipolar spherical harmonic
 
     real(DPK), dimension(:,:), allocatable:: y !bipolar spherical harmonic
+    real(DPK), dimension(:,:)  , allocatable:: psi2
     real(DPK) :: phi1, phi2, theta1r, theta2r
     integer :: m1, m2, theta1, theta2
     real(DPK) :: pop_ic
     complex(DPK):: pop_t_ie
+    complex(DPK), dimension(:,:,:), allocatable:: f, work !2e radial distribution
+    real(DPK), dimension(:,:,:,:,:), allocatable:: V !configuration interaction matrix
 
 
     character(len=32) :: wf1efilename, phasefilename, ad2efilename          !Wavefunction data file
     logical :: file_exists
+    integer:: t1, t2, clock_rate, clock_max
 
     !command line arguments
     character(len=100):: partial_l1, partial_l2, num_cycles ,rd2efilename
-    integer:: l1_int, l2_int, num_cycles_int, l1_select, l2_select, k_val
+    integer:: k1_int, k2_int, num_cycles_int, k1_select, k2_select, k_val
 
     !For phase shifts
     real(DPK), dimension(:,:,:), allocatable :: phase !delta_kl array for phase shift values
@@ -77,8 +84,8 @@ program ad2e_test
     call getarg(1, partial_l1)
     call getarg(2, partial_l2)
     call getarg(3, num_cycles)
-    read(partial_l1(1:2), "(i2)") l1_int
-    read(partial_l2(1:2), "(i2)") l2_int
+    read(partial_l1(1:2), "(i2)") k1_int
+    read(partial_l2(1:2), "(i2)") k2_int
     read(num_cycles(1:2), "(i2)") num_cycles_int
     write(*,*) num_cycles_int, "Field cycle number:"
    !read(L_total(1:1), "(i1)") L_int
@@ -259,194 +266,68 @@ ALLOCATE( nsi_l(0:lmax) )
 
 
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!calculate phase shifts
 
-      reduced_ijmax = 60
-      av = 100
+    l = 0
+    nof_l_ncf = w2e(l)%ncf
+    ie_max = w2e(l)%net
 
-      allocate(phase(0:3, 1:reduced_ijmax, 1:(av+1)))  !phase shifts stored in this array
-      allocate(k_value(0:3, 1:reduced_ijmax))  !array for storing K values corresponding to 1e energies
 
-      phase = 0.0_dpk
-      k_value = 0.0_dpk
 
-        loop_l: do l = 0, 3
-          loop_k: do ki = 1, reduced_ijmax
 
-            !calculate K values from 1e energies. If bound state energy, assign -1
-            if (e1e(l,ki) .lt. 0) then
-              k_value(l,ki) = -1.0
-            else
-              k_value(l,ki) = sqrt(2*e1e(l,ki))
-            end if
+    allocate( V(1:ie_max,1:60,0:3,1:60,0:3) )
 
-            loop_average:  do j = 1, av !Loop to calculate average phase shift using different points on P(r)
+    V = -10000
 
-              R1 = (nof_points-(j+10)) !!Point that phase is evaluated at, i.e close to but not on box boundary
-              R2 = (nof_points-(j+20))
 
-                phase(l,ki,j) = (p(R2, ki, (l+1))*bessel_jn(l,((k_value(l,ki))*(r(R1)))) - p(R1, ki, (l+1))*&
-                bessel_jn(l,((k_value(l,ki))*(r(R2)))))/ &
-                (p(R1, ki, (l+1))*bessel_yn(l,((k_value(l,ki))*(r(R2)))) - p(R2, ki, (l+1))*bessel_yn(l,((k_value(l,ki))*(r(R1)))))
+    loop_total_energy: do ie = ndi_l(l), ie_max           !write(*,*) ie
 
-                phase(l,ki,j) = atan(phase(l,ki,j))
-                phase(l,ki,(av+1)) = phase(l,ki,(av+1)) + phase(l,ki,j)
+      pop_t_ie = w2e(l)%ct(ie)                            !TDSE coefficients
 
-            end do loop_average
+      loop_configurations: do ic = 1 , nof_l_ncf         !sum from configuration 1 to max number of configurations, for the total  L
 
-            phase(l,ki,(av+1)) = phase(l,ki,(av+1))/av
+        nn1 = w2e(l)%n1(ic) !indexes for n and l extracted from configuration index ic
+        nn2 = w2e(l)%n2(ic)
+        ll1 = w2e(l)%l1(ic)
+        ll2 = w2e(l)%l2(ic)
 
+        !write(*,*) w2e(l)%cv(ie,ic), ie, nn1, ll1, nn2, ll2
+        V(ie,nn1,ll1,nn2,ll2) =  w2e(l)%cv(ie,ic)
+        !write(*,*) V(ie,nn1,ll1,nn2,ll2)
 
-            !if (phase(l,ki,(av+1)) .lt. 0.0) then
-            !  phase(l,ki,(av+1)) = phase(l,ki,(av+1)) + 3.14159
-            !end if
 
+      end do loop_configurations
 
-          !  write(*,*) e1e(l,ki), k_value(l,ki), phase(l,ki,(av+1)) !write energies, k's and phases
+    end do loop_total_energy
 
-          end do loop_k
 
-        !  write(*,*)
-        end do loop_l
 
+    write(*,*) V(183,21,2,49,2)
+    write(*,*) V(183,49,2,21,2)
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!save phases
 
-        loop_l2: do l = 0, 3
 
-          write (phasefilename, '(a,I1,a)') 'phaseshift-',l,'.out'
-          open(19, file = phasefilename, status = 'replace')
+    loop_total_E: do ie = ndi_l(l), ie_max
 
-          loop_k2: do ki = 1, reduced_ijmax
+      do i_n1 = 1, 60
+        do i_n2 = 1, 60
+          do ll1 = 0, 3
+            do ll2 = 0, 3
 
-            if ( k_value(l,ki) .gt. 0) then
-              write(*,*) l, k_value(l,ki), phase(l,ki,(av+1))!¬, (phase(l,ki,(av+1))-((l*pi)/2)+(k_value(l,ki)*r(nof_points)))/pi
-              write(19,'(3E20.10)')  k_value(l,ki), phase(l,ki,(av+1))
-            end if
+              if ((ie.eq.183).and.(i_n1.eq.21).and.(ll1.eq.2).and.(i_n2.eq.49).and.(ll2.eq.2)) then
+                write(*,*) "Where is the fault"
+                write(*,*) V(ie,nn1,ll1,nn2,ll2), ie, nn1, ll1, nn2, ll2
+              end if
 
-          end do loop_k2
-
-          close(19)
-
-        end do loop_l2
-
-
-        write(*,*) "finished phases"
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!calcualte angular distribution
-
-
-        nof_points_angular = 400
-        allocate( work_A(1:nof_points_angular))
-        allocate( A(1:nof_points_angular))
-
-        allocate( y(1:nof_points_angular, 1:nof_points_angular))
-
-       !allocate( work_A(1:8, 1:8, 1:4, 1:nof_points_angular, 1:nof_points_angular))
-
-        y = 0.0_dpk
-        A = 0.0_dpk
-
-        phi1 = 0
-        phi2 = 0
-        m1 = 0
-        m2 = 0
-        l1_select = l1_int
-        l2_select = l2_int
-        write(*,*) "working partial wave:", l1_select, l2_select
-
-
-
-      loop_n1: do i_n1 = 1, 60
-        loop_n2: do i_n2 = i_n1, 60
-
-          write(*,*) "working", i_n1, i_n2
-          work_A = 0.0_dpk
-
-          loop_total_L: do l = 0, 3
-
-            write(*,*) "Working total angular momentum:", l
-
-            nof_l_ncf = w2e(l)%ncf
-            ie_max = w2e(l)%net
-
-            loop_total_energy: do ie = ndi_l(l), ie_max           !write(*,*) ie
-
-              pop_t_ie = w2e(l)%ct(ie)                            !TDSE coefficients
-
-              loop_l1l2: do ic = 1, nof_l_ncf         !sum from configuration 1 to max number of configurations, for the total  L
-
-                nn1 = w2e(l)%n1(ic) !nn1 is energy index. also indexes k values
-                nn2 = w2e(l)%n2(ic)
-                if (((nn1 .eq. i_n1) .and. (nn2 .eq. i_n2)) .or. ((nn2 .eq. i_n1) .and. (nn1 .eq. i_n2))) then !select only specific k1 and k2
-
-
-                  ll1 = w2e(l)%l1(ic)
-                  ll2 = w2e(l)%l2(ic)
-
-                  if((k_value(ll1,nn1) .lt. 0) .or. (k_value(ll2,nn2) .lt. 0)) THEN
-                    write(*,*) k_value(ll1,nn1), k_value(ll2,nn2)
-                    cycle loop_l1l2
-                  end if
-
-                  if((ll1 .eq. l1_select) .and. (ll2 .eq. l2_select)) then
-
-                    pop_ic = w2e(l)%cv(ie,ic)
-
-                    theta1r = 0
-                    theta2r = 0
-                    angle_step = 2*pi/nof_points_angular
-
-                    if (((nn1 .eq. nn2) .and. (ll1 .eq. ll2))) then
-                        loop_angle: do theta2 = 1, nof_points_angular+1
-                            work_A(theta2) =  work_A(theta2) + &
-                            sphharm(ll1, 0, 0.0_dpk, 0.0_dpk)*sphharm(ll2, 0, theta2r, 0.0_dpk)*cleb(2*ll1, 0, 2*ll2, 0, 2*l, 0)*&
-                            pop_t_ie*pop_ic*cdexp((0.0,1.0)*(-(k_value(ll1,nn1)*60)-(k_value(ll2,nn2)*60)))
-                            theta2r = theta2r + angle_step
-                        end do loop_angle
-                    else
-                      loop_angle_exchange: do theta2 = 1, nof_points_angular+1
-                          work_A(theta2) =  work_A(theta2) + &
-                          sphharm(ll1, 0, 0.0_dpk, 0.0_dpk)*sphharm(ll2, 0, theta2r, 0.0_dpk)*cleb(2*ll1, 0, 2*ll2, 0, 2*l, 0)*&
-                          pop_t_ie*2*pop_ic*cdexp((0.0,1.0)*(-(k_value(ll1,nn1)*60)-(k_value(ll2,nn2)*60)))
-                          theta2r = theta2r + angle_step
-                      end do loop_angle_exchange
-                    end if
-
-                  end if
-
-                end if
-                !!!!!!!!!!!!!!                  work_A(theta1, theta2) =   work_A(theta1, theta2) + &
-
-              end do loop_l1l2
-
-              !write(*,*)
-
-            end do loop_total_energy
-          end do loop_total_L
-
-          if (i_n1 .eq. i_n2) then
-            A = A + abs(work_A)**2
-          else
-            A = A + 2*abs(work_A)**2
-          end if
-
-          end do loop_n2
-        end do loop_n1
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!save to file
-
-        write(rd2efilename,"(a,i1,a,i1,a)") "ad2e/ad2e_l1l2_",l1_select, "_", l2_select, ".out"
-
-        open(19, file = rd2efilename, status = 'replace')
-
-        do theta1 = 1, nof_points_angular
-
-            write(19,'(3E20.10)')  ((theta1-1)*angle_step)*(180/pi), abs(A(theta1))
-
+            end do
+          end do
         end do
+      end do
 
-       close(19)
+
+    end do loop_total_E
+
+
+
 
 
 end program ad2e_test

@@ -3,7 +3,7 @@
 ! modules:     cnstr_data:
 !                    sub:  set_space: set_overlap_file(1), set_config(2), set_cnstr_array(3)
 !                ite_data:
-!                    sub: set_ite_data   
+!                    sub: set_ite_data
 !
 
 MODULE cnstr_data
@@ -22,7 +22,7 @@ MODULE cnstr_data
   END INTERFACE
 
   PRIVATE set_overlap_file, set_cnstr_array, set_config
-CONTAINS 
+CONTAINS
   !S
   !S
   !S
@@ -51,12 +51,12 @@ CONTAINS
     ALLOCATE( nmin(nd) )
     ALLOCATE( nmax(nd) )
     ALLOCATE( noll(nd) )
-    ALLOCATE( is(nd)   ) 
+    ALLOCATE( is(nd)   )
     ALLOCATE( idcs(nd) )
     !
     WRITE(*,'(a40,i10)') '# h2e::set_config: set configurations done.'
-    WRITE(*,'(a40,i10)') '# h2e::                               nd = ', nd 
-    
+    WRITE(*,'(a40,i10)') '# h2e::                               nd = ', nd
+
   END SUBROUTINE set_config
   !S
   !S
@@ -66,13 +66,13 @@ CONTAINS
     IMPLICIT NONE
     INTEGER nocnstr, nmx
     !
-    ALLOCATE(    ix(nocnstr)      ) 
-    ALLOCATE(    iy(nocnstr)      ) 
-    ALLOCATE(    ic(nocnstr)      ) 
+    ALLOCATE(    ix(nocnstr)      )
+    ALLOCATE(    iy(nocnstr)      )
+    ALLOCATE(    ic(nocnstr)      )
     ALLOCATE(  cvec(nmx, nocnstr) )
     !
     WRITE(*,'(a40,i10)') '# h2e::set_cnstr_array: set constraints array done.'
-    WRITE(*,'(a40,i10)') '# h2e::                                   noc = ', nocnstr 
+    WRITE(*,'(a40,i10)') '# h2e::                                   noc = ', nocnstr
     !
   END SUBROUTINE set_cnstr_array
 
@@ -87,7 +87,7 @@ MODULE ite_data
   IMPLICIT NONE
   PUBLIC
   REAL(DPK), ALLOCATABLE, DIMENSION(:,:) :: cx, bx
-  REAL(DPK), ALLOCATABLE, DIMENSION(:,:) :: er, vec 
+  REAL(DPK), ALLOCATABLE, DIMENSION(:,:) :: er, vec
   REAL(DPK), ALLOCATABLE, DIMENSION(:)   :: finit
 
   INTERFACE ite_space
@@ -111,8 +111,8 @@ CONTAINS
 !!!....................
 
     WRITE(*,'(a40,i10)') '# h2e::set_ite:  allocation for energy matrix done. '
-    WRITE(*,'(a40,i10)') '# h2e::set_ite:                              ndim = ', ndim 
-    WRITE(*,'(a40,i10)') '# h2e::set_ite:                              nchl = ', nchl 
+    WRITE(*,'(a40,i10)') '# h2e::set_ite:                              ndim = ', ndim
+    WRITE(*,'(a40,i10)') '# h2e::set_ite:                              nchl = ', nchl
 
     ALLOCATE(er(ndim,nchl))
     ALLOCATE(vec(ndim,nchl))

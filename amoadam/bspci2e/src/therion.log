@@ -1,8 +1,154 @@
-therion 5.3.16
-initialization file: /etc/therion.ini
-reading ... done
-configuration file: thconfig
-reading ... done
-reading source files ... 
-therion: error -- can't open file for input -- carrowmore.th
-writing xtherion file ... done
+
+  if ((l1_int .eq. 0) .and. (l2_int .eq. 0) .and. (l .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 0) .and. (l2_int .eq. 0) .and. (l .eq. 2)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 0) .and. (l2_int .eq. 0) .and. (l .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 1) .and. (l2_int .eq. 1) .and. (l .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 1) .and. (l2_int .eq. 1) .and. (l .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 2) .and. (l2_int .eq. 2) .and. (l .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 2) .and. (l2_int .eq. 2) .and. (l .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 3) .and. (l2_int .eq. 3) .and. (l .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 3) .and. (l2_int .eq. 3) .and. (l .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 0) .and. (l2_int .eq. 1) .and. (l .eq. 0)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 0) .and. (l2_int .eq. 1) .and. (l .eq. 2)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 0) .and. (l2_int .eq. 1) .and. (l .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 0) .and. (l2_int .eq. 2) .and. (l .eq. 0)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 0) .and. (l2_int .eq. 2) .and. (l .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 0) .and. (l2_int .eq. 2) .and. (l .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 0) .and. (l2_int .eq. 3) .and. (l .eq. 0)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 0) .and. (l2_int .eq. 3) .and. (l .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 0) .and. (l2_int .eq. 3) .and. (l .eq. 2)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 1) .and. (l2_int .eq. 2) .and. (l .eq. 0)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 1) .and. (l2_int .eq. 2) .and. (l .eq. 2)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 1) .and. (l2_int .eq. 3) .and. (l .eq. 0)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 1) .and. (l2_int .eq. 3) .and. (l .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 1) .and. (l2_int .eq. 3) .and. (l .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 2) .and. (l2_int .eq. 3) .and. (l .eq. 0)) then
+    cycle loop_L
+  end if
+  if ((l1_int .eq. 2) .and. (l2_int .eq. 3) .and. (l .eq. 2)) then
+    cycle loop_L
+  end if
+
+
+
+  if ((l1_int_p .eq. 0) .and. (l2_int_p .eq. 0) .and. (l_prime .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 0) .and. (l2_int_p .eq. 0) .and. (l_prime .eq. 2)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 0) .and. (l2_int_p .eq. 0) .and. (l_prime .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 1) .and. (l2_int_p .eq. 1) .and. (l_prime .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 1) .and. (l2_int_p .eq. 1) .and. (l_prime .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 2) .and. (l2_int_p .eq. 2) .and. (l_prime .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 2) .and. (l2_int_p .eq. 2) .and. (l_prime .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 3) .and. (l2_int_p .eq. 3) .and. (l_prime .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 3) .and. (l2_int_p .eq. 3) .and. (l_prime .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 0) .and. (l2_int_p .eq. 1) .and. (l_prime .eq. 0)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 0) .and. (l2_int_p .eq. 1) .and. (l_prime .eq. 2)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 0) .and. (l2_int_p .eq. 1) .and. (l_prime .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 0) .and. (l2_int_p .eq. 2) .and. (l_prime .eq. 0)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 0) .and. (l2_int_p .eq. 2) .and. (l_prime .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 0) .and. (l2_int_p .eq. 2) .and. (l_prime .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 0) .and. (l2_int_p .eq. 3) .and. (l_prime .eq. 0)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 0) .and. (l2_int_p .eq. 3) .and. (l_prime .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 0) .and. (l2_int_p .eq. 3) .and. (l_prime .eq. 2)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 1) .and. (l2_int_p .eq. 2) .and. (l_prime .eq. 0)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 1) .and. (l2_int_p .eq. 2) .and. (l_prime .eq. 2)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 1) .and. (l2_int_p .eq. 3) .and. (l_prime .eq. 0)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 1) .and. (l2_int_p .eq. 3) .and. (l_prime .eq. 1)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 1) .and. (l2_int_p .eq. 3) .and. (l_prime .eq. 3)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 2) .and. (l2_int_p .eq. 3) .and. (l_prime .eq. 0)) then
+    cycle loop_L
+  end if
+  if ((l1_int_p .eq. 2) .and. (l2_int_p .eq. 3) .and. (l_prime .eq. 2)) then
+    cycle loop_L
+  end if

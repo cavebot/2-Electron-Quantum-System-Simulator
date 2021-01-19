@@ -62,14 +62,14 @@ program ad2e_test
 
     !command line arguments
     character(len=100):: partial_l1, partial_l2, partial_l3, partial_l4, num_cycles ,rd2efilename
-    integer:: l1_int, l2_int, l1_int_p, l2_int_p, num_cycles_int!, L_int
+    integer:: k1_int, k2_int, num_cycles_int, k1_select, k2_select, k_val
 
     !For phase shifts
     real(DPK), dimension(:,:,:), allocatable :: phase !delta_kl array for phase shift values
     real(DPK), dimension(:,:), allocatable :: k_value !delta_kl array for phase shift values
     integer :: ki, R1, R2, l2,k2, j, av
     integer :: reduced_ijmax, k !only energies up to roughly n=40 have valid calculated radial functions. Use this instead.
-    integer :: k_select, k_val
+    integer :: k1_select, k2_select k_val
 
 
     pi = 4.D0*DATAN(1.D0)
@@ -80,14 +80,12 @@ program ad2e_test
 !    call getarg(1, L_total)
     call getarg(1, partial_l1)
     call getarg(2, partial_l2)
-    call getarg(3, partial_l3)
-    call getarg(4, partial_l4)
     call getarg(5, num_cycles)
-    read(partial_l1(1:1), "(i1)") l1_int
-    read(partial_l2(1:1), "(i1)") l2_int
-    read(partial_l3(1:1), "(i1)") l1_int_p
-    read(partial_l4(1:1), "(i1)") l2_int_p
+
+    read(partial_l1(1:2), "(i2)") k1_int
+    read(partial_l2(1:2), "(i2)") k2_int
     read(num_cycles(1:2), "(i2)") num_cycles_int
+
     write(*,*) num_cycles_int, "Field cycle number:"
    !read(L_total(1:1), "(i1)") L_int
 
@@ -126,7 +124,7 @@ program ad2e_test
         if(file_exists) then
             l = l + 1
         else
-            exit
+            exit1:1
         end if
     end do
 
@@ -344,7 +342,7 @@ ALLOCATE( nsi_l(0:lmax) )
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!calcualte angular distribution
 
 
-        nof_points_angular = 200
+        nof_points_angular = 100
         allocate( work_A(1:nof_points_angular,1:nof_points_angular))
         allocate( y(1:nof_points_angular, 1:nof_points_angular))
 
@@ -356,7 +354,10 @@ ALLOCATE( nsi_l(0:lmax) )
         phi2 = 0
         m1 = 0
         m2 = 0
-        k_select = 4
+        k1_select = k1_int
+        k2_select = k2_int
+        write(*,*) "working k values", k1_select, k2_select
+
 
         loop_total_L: do l = 0, 3
 
@@ -373,7 +374,7 @@ ALLOCATE( nsi_l(0:lmax) )
 
               nn1 = w2e(l)%n1(ic) !nn1 is energy index. also indexes k values
               nn2 = w2e(l)%n2(ic)
-              if ((nn1 .ne. k_select) .or. (nn2 .ne. k_select)) then !select only specific k1 and k2
+              if ((nn1 .ne. k1_select) .or. (nn2 .ne. k2_select)) then !select only specific k1 and k2
                 cycle loop_l1l2
               end if
 
@@ -393,11 +394,21 @@ ALLOCATE( nsi_l(0:lmax) )
 
                   work_A(theta1, theta2) =  work_A(theta1, theta2) + &
                   sphharm(ll1, 0, theta1r, 0.0_dpk)*sphharm(ll2, 0, theta2r, 0.0_dpk)*cleb(2*ll1, 0, 2*ll2, 0, 2*l, 0)*&
-                  pop_t_ie*pop_ic*exp((0.0,1.0)*(k_value(ll1,nn1)+k_value(ll2,nn2))*(60))!*(0.0,-1.0)**(ll1+ll2)!*cdexp((0.0,1.0)*(phase(ll1,nn1,(av+1))+phase(ll1,nn1,(av+1))))
+                  (0.0,-1.0)**(ll1+ll2)*cdexp((0.0,1.0)*((ll1*pi/2)+(ll2*pi/2)-(k_value(ll1,nn1)*60)-(k_value(ll2,nn2)*60)))*&
+                  pop_t_ie*pop_ic
+
+
+
+                  !pop_t_ie*pop_ic*exp((0.0,1.0)*(k_value(ll1,nn1)+k_value(ll2,nn2))*(60))
+
                   !cdexp((0.0,1.0)*(k_value(ll1,nn1)+k_value(ll2,nn2))*(60))
-                  theta1r = theta1r + angle_step
+                  theta2r = theta2r + angle_step
 
                 end do loop_angle2
+
+                theta1r = theta1r + angle_step
+
+
               end do loop_angle
 
               !!!!!!!!!!!!!!                  work_A(theta1, theta2) =   work_A(theta1, theta2) + &
@@ -412,16 +423,28 @@ ALLOCATE( nsi_l(0:lmax) )
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!save to file
 
-        write(rd2efilename,"(a,i2,a)") "ad2e/ad2e_2d_k",k_select,".out"
+        if ((k1_select .lt. 10) .and. (k2_select .lt. 10)) then
+          write(rd2efilename,"(a,i1,a,i1,a)") "ad2e/ad2e_2d_k",k1_select, "_", k2_select, ".out"
+        else if ((k1_select .ge. 10) .and. (k2_select .ge. 10)) then
+          write(rd2efilename,"(a,i2,a,i2,a)") "ad2e/ad2e_2d_k",k1_select, "_", k2_select, ".out"
+        else if ((k1_select .ge. 10) .and. (k2_select .lt. 10)) then
+          write(rd2efilename,"(a,i2,a,i1,a)") "ad2e/ad2e_2d_k",k1_select, "_", k2_select, ".out"
+        else
+          write(rd2efilename,"(a,i1,a,i2,a)") "ad2e/ad2e_2d_k",k1_select, "_", k2_select, ".out"
+        end if
+
         open(19, file = rd2efilename, status = 'replace')
 
 
         do theta1 = 1, nof_points_angular
-          do theta2 = 1, nof_points_angular
+          !do theta2 = 1, nof_points_angular
 
-            write(19,'(3E20.10)')  ((theta1-1)*angle_step)*(180/pi), ((theta2-1)*angle_step)*(180/pi),abs(work_A(theta1,theta2))
+            !write(19,'(3E20.10)')  ((theta1-1)*angle_step)*(180/pi), ((theta2-1)*angle_step)*(180/pi),abs(work_A(theta1,theta2))
+            write(19,'(500E20.10)') (abs(work_A(theta1,theta2)), theta2 = 1, nof_points_angular)
 
-          end do
+          !end do
+
+          !write(19,'(500E20.10)')
         end do
 
        close(19)
